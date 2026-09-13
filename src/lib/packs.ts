@@ -195,13 +195,13 @@ export const PACKS: Pack[] = [
     accent: "blush",
     updatedAt: "2026-09-14",
     stickers: [
-      { id: "lol", name: "笑死", motion: "laugh collapse" },
+      { id: "lol", name: "笑死", motion: "lie back kick laugh" },
       { id: "nanbeng", name: "难绷憋笑", motion: "cover mouth shake" },
-      { id: "haha", name: "哈哈哈哈", motion: "roll on floor laugh" },
-      { id: "meizi", name: "美滋滋", motion: "sit rub hands smug" },
-      { id: "six", name: "666", motion: "sit thumbs-up 666" },
-      { id: "nitian", name: "逆天啊", motion: "fall sit shocked" },
-      { id: "zundu", name: "尊嘟假嘟", motion: "lean tilt cute confuse" },
+      { id: "haha", name: "哈哈哈哈", motion: "bend over belly laugh" },
+      { id: "meizi", name: "美滋滋", motion: "sit rub cheeks smug" },
+      { id: "six", name: "666", motion: "finger guns bounce" },
+      { id: "nitian", name: "逆天啊", motion: "look up clutch head" },
+      { id: "zundu", name: "尊嘟假嘟", motion: "lean poke cute" },
       { id: "drama", name: "刷短剧去了", motion: "sneak phone" },
       { id: "bye", name: "拜拜", motion: "wave bye" },
       { id: "juice", name: "美汁汁", motion: "satisfied" },
@@ -250,11 +250,11 @@ export const PACKS: Pack[] = [
 ];
 
 export function stickerGif(packId: string, stickerId: string) {
-  return `/stickers/${packId}/${stickerId}.gif?v=79`;
+  return `/stickers/${packId}/${stickerId}.gif?v=80`;
 }
 
 export function stickerPng(packId: string, stickerId: string) {
-  return `/stickers/${packId}/${stickerId}.png?v=79`;
+  return `/stickers/${packId}/${stickerId}.png?v=80`;
 }
 
 export function getPack(id: string) {
