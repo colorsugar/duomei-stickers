@@ -35,6 +35,9 @@ function getServerSnapshot() {
 }
 
 export function hasStickerGif(packId: string, stickerId: string, data: StickerIndex = index) {
+  if (PACKS.find((p) => p.id === packId)?.stickers.some((s) => s.id === stickerId)) {
+    return true;
+  }
   return data[packId]?.includes(stickerId) ?? false;
 }
 
@@ -71,7 +74,11 @@ async function refreshIndex() {
     if (idxRes.ok) {
       const data = (await idxRes.json()) as StickerIndex;
       if (data && typeof data === "object" && !Array.isArray(data)) {
-        index = { ...SERVER_INDEX, ...data };
+        const merged: StickerIndex = { ...data };
+        for (const [id, ids] of Object.entries(SERVER_INDEX)) {
+          merged[id] = [...new Set([...(merged[id] ?? []), ...ids])];
+        }
+        index = merged;
       }
     }
     if (sizeRes.ok) {

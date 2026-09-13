@@ -24,6 +24,7 @@ export function StickerGif({
   const [pngOn, setPngOn] = useState(false);
   const [visible, setVisible] = useState(eager);
   const box = useRef<HTMLDivElement>(null);
+  const pngRef = useRef<HTMLImageElement>(null);
   const pngSrc = stickerPng(packId, stickerId);
   const gifSrc = stickerGif(packId, stickerId);
   const gif = useSyncExternalStore(
@@ -38,6 +39,11 @@ export function StickerGif({
     setFailed(false);
     setPngOn(false);
   }, [packId, stickerId, gifSrc]);
+
+  useEffect(() => {
+    const el = pngRef.current;
+    if (el && el.complete && el.naturalWidth > 0) setPngOn(true);
+  }, [pngSrc]);
 
   useEffect(() => {
     if (eager && animated) requestGif(gifSrc, 10);
@@ -67,6 +73,7 @@ export function StickerGif({
       {show ? (
         <>
           <img
+            ref={pngRef}
             src={pngSrc}
             alt={alt}
             draggable={false}
