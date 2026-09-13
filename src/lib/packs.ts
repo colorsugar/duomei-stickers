@@ -191,16 +191,20 @@ export const PACKS: Pack[] = [
     name: "日常",
     nameEn: "Daily",
     outfit: "watermelon",
-    tagline: "笑死 难绷憋笑 666",
+    tagline: "笑死 哈哈哈哈 尊嘟假嘟",
     accent: "blush",
     updatedAt: "2026-09-14",
     stickers: [
-      { id: "lol", name: "笑死", motion: "laugh die" },
+      { id: "lol", name: "笑死", motion: "laugh collapse" },
       { id: "nanbeng", name: "难绷憋笑", motion: "cover mouth shake" },
+      { id: "haha", name: "哈哈哈哈", motion: "roll on floor laugh" },
+      { id: "meizi", name: "美滋滋", motion: "sit rub hands smug" },
+      { id: "six", name: "666", motion: "sit thumbs-up 666" },
+      { id: "nitian", name: "逆天啊", motion: "fall sit shocked" },
+      { id: "zundu", name: "尊嘟假嘟", motion: "lean tilt cute confuse" },
       { id: "drama", name: "刷短剧去了", motion: "sneak phone" },
       { id: "bye", name: "拜拜", motion: "wave bye" },
       { id: "juice", name: "美汁汁", motion: "satisfied" },
-      { id: "haha", name: "哈哈哈", motion: "burst laugh" },
       { id: "hehe", name: "嘿嘿", motion: "sly grin" },
       { id: "speechless", name: "无语", motion: "deadpan" },
       { id: "wild", name: "离谱", motion: "shock" },
@@ -210,7 +214,6 @@ export const PACKS: Pack[] = [
       { id: "fold", name: "服了", motion: "palm forehead" },
       { id: "insane", name: "绝了", motion: "mind blown" },
       { id: "real", name: "真的假的", motion: "suspicious" },
-      { id: "six", name: "666", motion: "finger guns" },
       { id: "love", name: "爱了", motion: "heart hands" },
     ],
   },
@@ -247,11 +250,11 @@ export const PACKS: Pack[] = [
 ];
 
 export function stickerGif(packId: string, stickerId: string) {
-  return `/stickers/${packId}/${stickerId}.gif?v=78`;
+  return `/stickers/${packId}/${stickerId}.gif?v=79`;
 }
 
 export function stickerPng(packId: string, stickerId: string) {
-  return `/stickers/${packId}/${stickerId}.png?v=78`;
+  return `/stickers/${packId}/${stickerId}.png?v=79`;
 }
 
 export function getPack(id: string) {
