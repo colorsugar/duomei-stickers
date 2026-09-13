@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "多美表情包工坊",
+      "hasCanvas": false,
+      "bodyTextLen": 593,
+      "bodyTextHash": "1e11c1de135ec90d55f908411b87121382b12df15e73a11009fc4a593a8b47c6",
+      "bodyTextPrefix": "美 多美表情包 Duomei Sticker Studio 全部套装 上架规格 WATERMELON DUOMEI 多美表情包工",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "多美表情包工坊",
+      "hasCanvas": false,
+      "bodyTextLen": 593,
+      "bodyTextHash": "1e11c1de135ec90d55f908411b87121382b12df15e73a11009fc4a593a8b47c6",
+      "bodyTextPrefix": "美 多美表情包 Duomei Sticker Studio 全部套装 上架规格 WATERMELON DUOMEI 多美表情包工",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-preview.json"
+}

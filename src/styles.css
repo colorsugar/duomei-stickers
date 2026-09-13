@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #fff6ee;
+  --color-bg-deep: #f8e6d6;
+  --color-surface: #fffdf9;
+  --color-surface-2: #ffefe4;
+  --color-ink: #3a2a24;
+  --color-muted: #8a6f64;
+  --color-subtle: #b89a8e;
+  --color-line: #edd6c8;
+  --color-line-strong: #e0c0ae;
+  --color-melon: #d94b4b;
+  --color-melon-deep: #b73838;
+  --color-melon-soft: #f6c7c2;
+  --color-rind: #2f7a4a;
+  --color-rind-soft: #d7ecdc;
+  --color-seed: #2b211c;
+  --color-blush: #f3c1b6;
+  --color-cream: #fff8f0;
+  --color-wash-1: #ffe4d6;
+  --color-wash-2: #f8d5d0;
+  --color-checker-a: #f4e7dc;
+  --color-checker-b: #fffdf9;
+  --font-sans: "PingFang SC", "Hiragino Sans GB", "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+  --font-display: "PingFang SC", "Hiragino Sans GB", "Songti SC", serif;
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --shadow-card: 0 10px 30px -18px rgb(58 42 36 / 0.35);
+  --shadow-card-hover: 0 16px 36px -16px rgb(58 42 36 / 0.42);
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  html,
+  body {
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    min-height: 100%;
+  }
+
+  body {
+    background-image:
+      radial-gradient(circle at 12% -8%, var(--color-wash-1) 0%, transparent 42%),
+      radial-gradient(circle at 100% 0%, var(--color-wash-2) 0%, transparent 36%);
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+}
+
+@layer components {
+  .sticker-checker {
+    background-color: var(--color-cream);
+    background-image: repeating-conic-gradient(
+      var(--color-checker-a) 0 8px,
+      var(--color-checker-b) 0 16px
+    );
+  }
+
+  .tap-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .sticker-tile {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 280px;
+  }
+
+  .sticker-loadbar {
+    height: 3px;
+    overflow: hidden;
+    background: var(--color-line);
+  }
+
+  .sticker-loadbar > span {
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: var(--color-melon);
+    transform: scaleX(0.08);
+    transform-origin: left center;
+    transition: transform 160ms var(--ease-out-soft);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

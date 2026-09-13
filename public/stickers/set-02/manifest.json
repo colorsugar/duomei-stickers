@@ -1,0 +1,114 @@
+[
+  {
+    "id": "surf",
+    "name": "冲浪啦",
+    "gif": "/stickers/set-02/surf.gif",
+    "png": "/stickers/set-02/surf.png",
+    "bytes": 535314
+  },
+  {
+    "id": "cool",
+    "name": "墨镜酷",
+    "gif": "/stickers/set-02/cool.gif",
+    "png": "/stickers/set-02/cool.png",
+    "bytes": 463910
+  },
+  {
+    "id": "sip",
+    "name": "喝果汁",
+    "gif": "/stickers/set-02/sip.gif",
+    "png": "/stickers/set-02/sip.png",
+    "bytes": 453709
+  },
+  {
+    "id": "float",
+    "name": "小黄鸭",
+    "gif": "/stickers/set-02/float.gif",
+    "png": "/stickers/set-02/float.png",
+    "bytes": 415160
+  },
+  {
+    "id": "sand",
+    "name": "踩沙滩",
+    "gif": "/stickers/set-02/sand.gif",
+    "png": "/stickers/set-02/sand.png",
+    "bytes": 678702
+  },
+  {
+    "id": "sun",
+    "name": "晒太阳",
+    "gif": "/stickers/set-02/sun.gif",
+    "png": "/stickers/set-02/sun.png",
+    "bytes": 479585
+  },
+  {
+    "id": "shell",
+    "name": "捡贝壳",
+    "gif": "/stickers/set-02/shell.gif",
+    "png": "/stickers/set-02/shell.png",
+    "bytes": 439608
+  },
+  {
+    "id": "wind",
+    "name": "吹海风",
+    "gif": "/stickers/set-02/wind.gif",
+    "png": "/stickers/set-02/wind.png",
+    "bytes": 554410
+  },
+  {
+    "id": "hot",
+    "name": "好热呀",
+    "gif": "/stickers/set-02/hot.gif",
+    "png": "/stickers/set-02/hot.png",
+    "bytes": 446139
+  },
+  {
+    "id": "splash",
+    "name": "泼水",
+    "gif": "/stickers/set-02/splash.gif",
+    "png": "/stickers/set-02/splash.png",
+    "bytes": 532797
+  },
+  {
+    "id": "photo",
+    "name": "拍照",
+    "gif": "/stickers/set-02/photo.gif",
+    "png": "/stickers/set-02/photo.png",
+    "bytes": 435962
+  },
+  {
+    "id": "sea",
+    "name": "看大海",
+    "gif": "/stickers/set-02/sea.gif",
+    "png": "/stickers/set-02/sea.png",
+    "bytes": 318422
+  },
+  {
+    "id": "dance",
+    "name": "嗨起来",
+    "gif": "/stickers/set-02/dance.gif",
+    "png": "/stickers/set-02/dance.png",
+    "bytes": 451200
+  },
+  {
+    "id": "melon",
+    "name": "冰西瓜",
+    "gif": "/stickers/set-02/melon.gif",
+    "png": "/stickers/set-02/melon.png",
+    "bytes": 439687
+  },
+  {
+    "id": "wave-sea",
+    "name": "招手",
+    "gif": "/stickers/set-02/wave-sea.gif",
+    "png": "/stickers/set-02/wave-sea.png",
+    "bytes": 509925
+  },
+  {
+    "id": "sunset",
+    "name": "日落",
+    "gif": "/stickers/set-02/sunset.gif",
+    "png": "/stickers/set-02/sunset.png",
+    "bytes": 483835
+  }
+]

@@ -1,0 +1,114 @@
+[
+  {
+    "id": "loading",
+    "name": "加载中",
+    "gif": "/stickers/set-16/loading.gif",
+    "png": "/stickers/set-16/loading.png",
+    "bytes": 469793
+  },
+  {
+    "id": "err-404",
+    "name": "404",
+    "gif": "/stickers/set-16/err-404.gif",
+    "png": "/stickers/set-16/err-404.png",
+    "bytes": 488226
+  },
+  {
+    "id": "brain-smoke",
+    "name": "大脑过载",
+    "gif": "/stickers/set-16/brain-smoke.gif",
+    "png": "/stickers/set-16/brain-smoke.png",
+    "bytes": 404335
+  },
+  {
+    "id": "two-choice",
+    "name": "选择困难",
+    "gif": "/stickers/set-16/two-choice.gif",
+    "png": "/stickers/set-16/two-choice.png",
+    "bytes": 478744
+  },
+  {
+    "id": "subtitle",
+    "name": "吐槽框",
+    "gif": "/stickers/set-16/subtitle.gif",
+    "png": "/stickers/set-16/subtitle.png",
+    "bytes": 464116
+  },
+  {
+    "id": "earth-melon",
+    "name": "地球当瓜",
+    "gif": "/stickers/set-16/earth-melon.gif",
+    "png": "/stickers/set-16/earth-melon.png",
+    "bytes": 459622
+  },
+  {
+    "id": "upside-down",
+    "name": "重力反了",
+    "gif": "/stickers/set-16/upside-down.gif",
+    "png": "/stickers/set-16/upside-down.png",
+    "bytes": 343507
+  },
+  {
+    "id": "barcode",
+    "name": "条码脸",
+    "gif": "/stickers/set-16/barcode.gif",
+    "png": "/stickers/set-16/barcode.png",
+    "bytes": 431728
+  },
+  {
+    "id": "hourglass",
+    "name": "沙漏",
+    "gif": "/stickers/set-16/hourglass.gif",
+    "png": "/stickers/set-16/hourglass.png",
+    "bytes": 459269
+  },
+  {
+    "id": "think-statue",
+    "name": "沉思像",
+    "gif": "/stickers/set-16/think-statue.gif",
+    "png": "/stickers/set-16/think-statue.png",
+    "bytes": 448507
+  },
+  {
+    "id": "empty-bubble",
+    "name": "空白气泡",
+    "gif": "/stickers/set-16/empty-bubble.gif",
+    "png": "/stickers/set-16/empty-bubble.png",
+    "bytes": 410369
+  },
+  {
+    "id": "seed-study",
+    "name": "研究籽",
+    "gif": "/stickers/set-16/seed-study.gif",
+    "png": "/stickers/set-16/seed-study.png",
+    "bytes": 470346
+  },
+  {
+    "id": "rain-cloud",
+    "name": "专属雨云",
+    "gif": "/stickers/set-16/rain-cloud.gif",
+    "png": "/stickers/set-16/rain-cloud.png",
+    "bytes": 414351
+  },
+  {
+    "id": "chess-stuck",
+    "name": "象棋困住",
+    "gif": "/stickers/set-16/chess-stuck.gif",
+    "png": "/stickers/set-16/chess-stuck.png",
+    "bytes": 389119
+  },
+  {
+    "id": "long-receipt",
+    "name": "长收据",
+    "gif": "/stickers/set-16/long-receipt.gif",
+    "png": "/stickers/set-16/long-receipt.png",
+    "bytes": 377426
+  },
+  {
+    "id": "lecture",
+    "name": "开讲",
+    "gif": "/stickers/set-16/lecture.gif",
+    "png": "/stickers/set-16/lecture.png",
+    "bytes": 452802
+  }
+]

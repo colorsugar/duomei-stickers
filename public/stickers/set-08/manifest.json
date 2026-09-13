@@ -1,0 +1,114 @@
+[
+  {
+    "id": "punch",
+    "name": "早呀",
+    "gif": "/stickers/set-08/punch.gif",
+    "png": "/stickers/set-08/punch.png",
+    "bytes": 385908
+  },
+  {
+    "id": "slap",
+    "name": "冲鸭",
+    "gif": "/stickers/set-08/slap.gif",
+    "png": "/stickers/set-08/slap.png",
+    "bytes": 469939
+  },
+  {
+    "id": "dummy",
+    "name": "有力量",
+    "gif": "/stickers/set-08/dummy.gif",
+    "png": "/stickers/set-08/dummy.png",
+    "bytes": 446947
+  },
+  {
+    "id": "kick",
+    "name": "鼓掌",
+    "gif": "/stickers/set-08/kick.gif",
+    "png": "/stickers/set-08/kick.png",
+    "bytes": 471394
+  },
+  {
+    "id": "bite",
+    "name": "赢啦",
+    "gif": "/stickers/set-08/bite.gif",
+    "png": "/stickers/set-08/bite.png",
+    "bytes": 488105
+  },
+  {
+    "id": "flick",
+    "name": "冲冲冲",
+    "gif": "/stickers/set-08/flick.gif",
+    "png": "/stickers/set-08/flick.png",
+    "bytes": 408874
+  },
+  {
+    "id": "stomp",
+    "name": "充满电",
+    "gif": "/stickers/set-08/stomp.gif",
+    "png": "/stickers/set-08/stomp.png",
+    "bytes": 456235
+  },
+  {
+    "id": "throw",
+    "name": "跳舞",
+    "gif": "/stickers/set-08/throw.gif",
+    "png": "/stickers/set-08/throw.png",
+    "bytes": 452684
+  },
+  {
+    "id": "pinch",
+    "name": "跳起来",
+    "gif": "/stickers/set-08/pinch.gif",
+    "png": "/stickers/set-08/pinch.png",
+    "bytes": 472248
+  },
+  {
+    "id": "hammer",
+    "name": "耶",
+    "gif": "/stickers/set-08/hammer.gif",
+    "png": "/stickers/set-08/hammer.png",
+    "bytes": 332497
+  },
+  {
+    "id": "glare",
+    "name": "流汗",
+    "gif": "/stickers/set-08/glare.gif",
+    "png": "/stickers/set-08/glare.png",
+    "bytes": 378221
+  },
+  {
+    "id": "hmph",
+    "name": "歇一会",
+    "gif": "/stickers/set-08/hmph.gif",
+    "png": "/stickers/set-08/hmph.png",
+    "bytes": 352516
+  },
+  {
+    "id": "tantrum",
+    "name": "认真",
+    "gif": "/stickers/set-08/tantrum.gif",
+    "png": "/stickers/set-08/tantrum.png",
+    "bytes": 414783
+  },
+  {
+    "id": "angry",
+    "name": "为你加油",
+    "gif": "/stickers/set-08/angry.gif",
+    "png": "/stickers/set-08/angry.png",
+    "bytes": 323199
+  },
+  {
+    "id": "eyeroll",
+    "name": "小太阳",
+    "gif": "/stickers/set-08/eyeroll.gif",
+    "png": "/stickers/set-08/eyeroll.png",
+    "bytes": 392019
+  },
+  {
+    "id": "pout",
+    "name": "完成",
+    "gif": "/stickers/set-08/pout.gif",
+    "png": "/stickers/set-08/pout.png",
+    "bytes": 283033
+  }
+]

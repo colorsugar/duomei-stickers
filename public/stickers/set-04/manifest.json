@@ -1,0 +1,114 @@
+[
+  {
+    "id": "off",
+    "name": "咬一口",
+    "gif": "/stickers/set-04/off.gif",
+    "png": "/stickers/set-04/off.png",
+    "bytes": 455349
+  },
+  {
+    "id": "lol",
+    "name": "好吃",
+    "gif": "/stickers/set-04/lol.gif",
+    "png": "/stickers/set-04/lol.png",
+    "bytes": 494546
+  },
+  {
+    "id": "checkin",
+    "name": "吃饱啦",
+    "gif": "/stickers/set-04/checkin.gif",
+    "png": "/stickers/set-04/checkin.png",
+    "bytes": 459738
+  },
+  {
+    "id": "soldout",
+    "name": "吐籽",
+    "gif": "/stickers/set-04/soldout.gif",
+    "png": "/stickers/set-04/soldout.png",
+    "bytes": 472148
+  },
+  {
+    "id": "jam",
+    "name": "汁液",
+    "gif": "/stickers/set-04/jam.gif",
+    "png": "/stickers/set-04/jam.png",
+    "bytes": 486445
+  },
+  {
+    "id": "crowd",
+    "name": "分你",
+    "gif": "/stickers/set-04/crowd.gif",
+    "png": "/stickers/set-04/crowd.png",
+    "bytes": 684024
+  },
+  {
+    "id": "arrive",
+    "name": "想吃",
+    "gif": "/stickers/set-04/arrive.gif",
+    "png": "/stickers/set-04/arrive.png",
+    "bytes": 352250
+  },
+  {
+    "id": "home",
+    "name": "好冰",
+    "gif": "/stickers/set-04/home.gif",
+    "png": "/stickers/set-04/home.png",
+    "bytes": 430775
+  },
+  {
+    "id": "give",
+    "name": "再来一块",
+    "gif": "/stickers/set-04/give.gif",
+    "png": "/stickers/set-04/give.png",
+    "bytes": 473805
+  },
+  {
+    "id": "late",
+    "name": "野餐",
+    "gif": "/stickers/set-04/late.gif",
+    "png": "/stickers/set-04/late.png",
+    "bytes": 510372
+  },
+  {
+    "id": "drool",
+    "name": "数籽",
+    "gif": "/stickers/set-04/drool.gif",
+    "png": "/stickers/set-04/drool.png",
+    "bytes": 401245
+  },
+  {
+    "id": "miss",
+    "name": "西瓜脸",
+    "gif": "/stickers/set-04/miss.gif",
+    "png": "/stickers/set-04/miss.png",
+    "bytes": 308585
+  },
+  {
+    "id": "flag",
+    "name": "黏糊糊",
+    "gif": "/stickers/set-04/flag.gif",
+    "png": "/stickers/set-04/flag.png",
+    "bytes": 456294
+  },
+  {
+    "id": "slip",
+    "name": "透心凉",
+    "gif": "/stickers/set-04/slip.gif",
+    "png": "/stickers/set-04/slip.png",
+    "bytes": 420779
+  },
+  {
+    "id": "tiaoxiu",
+    "name": "贪吃",
+    "gif": "/stickers/set-04/tiaoxiu.gif",
+    "png": "/stickers/set-04/tiaoxiu.png",
+    "bytes": 447202
+  },
+  {
+    "id": "bing",
+    "name": "吃完啦",
+    "gif": "/stickers/set-04/bing.gif",
+    "png": "/stickers/set-04/bing.png",
+    "bytes": 477533
+  }
+]

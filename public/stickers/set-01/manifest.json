@@ -1,0 +1,114 @@
+[
+  {
+    "id": "hi",
+    "name": "美滋滋",
+    "gif": "/stickers/set-01/hi.gif",
+    "png": "/stickers/set-01/hi.png",
+    "bytes": 352595
+  },
+  {
+    "id": "happy",
+    "name": "吃瓜",
+    "gif": "/stickers/set-01/happy.gif",
+    "png": "/stickers/set-01/happy.png",
+    "bytes": 273501
+  },
+  {
+    "id": "laugh",
+    "name": "笑死",
+    "gif": "/stickers/set-01/laugh.gif",
+    "png": "/stickers/set-01/laugh.png",
+    "bytes": 469244
+  },
+  {
+    "id": "love",
+    "name": "贴贴",
+    "gif": "/stickers/set-01/love.gif",
+    "png": "/stickers/set-01/love.png",
+    "bytes": 472580
+  },
+  {
+    "id": "cry",
+    "name": "逆天",
+    "gif": "/stickers/set-01/cry.gif",
+    "png": "/stickers/set-01/cry.png",
+    "bytes": 479514
+  },
+  {
+    "id": "angry",
+    "name": "裂开",
+    "gif": "/stickers/set-01/angry.gif",
+    "png": "/stickers/set-01/angry.png",
+    "bytes": 554892
+  },
+  {
+    "id": "shock",
+    "name": "救命",
+    "gif": "/stickers/set-01/shock.gif",
+    "png": "/stickers/set-01/shock.png",
+    "bytes": 576530
+  },
+  {
+    "id": "sleepy",
+    "name": "不想活",
+    "gif": "/stickers/set-01/sleepy.gif",
+    "png": "/stickers/set-01/sleepy.png",
+    "bytes": 429312
+  },
+  {
+    "id": "fight",
+    "name": "冲",
+    "gif": "/stickers/set-01/fight.gif",
+    "png": "/stickers/set-01/fight.png",
+    "bytes": 545313
+  },
+  {
+    "id": "ok",
+    "name": "绝了",
+    "gif": "/stickers/set-01/ok.gif",
+    "png": "/stickers/set-01/ok.png",
+    "bytes": 405817
+  },
+  {
+    "id": "thanks",
+    "name": "收到",
+    "gif": "/stickers/set-01/thanks.gif",
+    "png": "/stickers/set-01/thanks.png",
+    "bytes": 479165
+  },
+  {
+    "id": "please",
+    "name": "破防",
+    "gif": "/stickers/set-01/please.gif",
+    "png": "/stickers/set-01/please.png",
+    "bytes": 507473
+  },
+  {
+    "id": "think",
+    "name": "尊嘟假嘟",
+    "gif": "/stickers/set-01/think.gif",
+    "png": "/stickers/set-01/think.png",
+    "bytes": 429043
+  },
+  {
+    "id": "shy",
+    "name": "摆烂",
+    "gif": "/stickers/set-01/shy.gif",
+    "png": "/stickers/set-01/shy.png",
+    "bytes": 306441
+  },
+  {
+    "id": "night",
+    "name": "晚安",
+    "gif": "/stickers/set-01/night.gif",
+    "png": "/stickers/set-01/night.png",
+    "bytes": 352657
+  },
+  {
+    "id": "bye",
+    "name": "拜拜了您",
+    "gif": "/stickers/set-01/bye.gif",
+    "png": "/stickers/set-01/bye.png",
+    "bytes": 481844
+  }
+]

@@ -1,0 +1,114 @@
+[
+  {
+    "id": "rocket",
+    "name": "火箭冲",
+    "gif": "/stickers/set-12/rocket.gif",
+    "png": "/stickers/set-12/rocket.png",
+    "bytes": 460903
+  },
+  {
+    "id": "backflip",
+    "name": "后空翻",
+    "gif": "/stickers/set-12/backflip.gif",
+    "png": "/stickers/set-12/backflip.png",
+    "bytes": 406587
+  },
+  {
+    "id": "high-five",
+    "name": "击掌",
+    "gif": "/stickers/set-12/high-five.gif",
+    "png": "/stickers/set-12/high-five.png",
+    "bytes": 436168
+  },
+  {
+    "id": "energy-drink",
+    "name": "功能饮料",
+    "gif": "/stickers/set-12/energy-drink.gif",
+    "png": "/stickers/set-12/energy-drink.png",
+    "bytes": 422260
+  },
+  {
+    "id": "sprint",
+    "name": "狂奔",
+    "gif": "/stickers/set-12/sprint.gif",
+    "png": "/stickers/set-12/sprint.png",
+    "bytes": 430044
+  },
+  {
+    "id": "dumbbell",
+    "name": "哑铃",
+    "gif": "/stickers/set-12/dumbbell.gif",
+    "png": "/stickers/set-12/dumbbell.png",
+    "bytes": 472095
+  },
+  {
+    "id": "coach-whistle",
+    "name": "教练哨",
+    "gif": "/stickers/set-12/coach-whistle.gif",
+    "png": "/stickers/set-12/coach-whistle.png",
+    "bytes": 379451
+  },
+  {
+    "id": "finish-line",
+    "name": "冲线",
+    "gif": "/stickers/set-12/finish-line.gif",
+    "png": "/stickers/set-12/finish-line.png",
+    "bytes": 385040
+  },
+  {
+    "id": "towel",
+    "name": "甩毛巾",
+    "gif": "/stickers/set-12/towel.gif",
+    "png": "/stickers/set-12/towel.png",
+    "bytes": 413013
+  },
+  {
+    "id": "knees-up",
+    "name": "高抬腿",
+    "gif": "/stickers/set-12/knees-up.gif",
+    "png": "/stickers/set-12/knees-up.png",
+    "bytes": 462829
+  },
+  {
+    "id": "full-bar",
+    "name": "满电",
+    "gif": "/stickers/set-12/full-bar.gif",
+    "png": "/stickers/set-12/full-bar.png",
+    "bytes": 387974
+  },
+  {
+    "id": "spring",
+    "name": "弹簧跳",
+    "gif": "/stickers/set-12/spring.gif",
+    "png": "/stickers/set-12/spring.png",
+    "bytes": 443433
+  },
+  {
+    "id": "drum",
+    "name": "敲鼓",
+    "gif": "/stickers/set-12/drum.gif",
+    "png": "/stickers/set-12/drum.png",
+    "bytes": 399227
+  },
+  {
+    "id": "horn",
+    "name": "吹号",
+    "gif": "/stickers/set-12/horn.gif",
+    "png": "/stickers/set-12/horn.png",
+    "bytes": 423349
+  },
+  {
+    "id": "flame-on",
+    "name": "燃起来",
+    "gif": "/stickers/set-12/flame-on.gif",
+    "png": "/stickers/set-12/flame-on.png",
+    "bytes": 550764
+  },
+  {
+    "id": "victory",
+    "name": "胜利",
+    "gif": "/stickers/set-12/victory.gif",
+    "png": "/stickers/set-12/victory.png",
+    "bytes": 392495
+  }
+]

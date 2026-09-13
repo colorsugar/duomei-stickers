@@ -1,0 +1,114 @@
+[
+  {
+    "id": "login",
+    "name": "好的",
+    "gif": "/stickers/set-06/login.gif",
+    "png": "/stickers/set-06/login.png",
+    "bytes": 466421
+  },
+  {
+    "id": "come",
+    "name": "不行",
+    "gif": "/stickers/set-06/come.gif",
+    "png": "/stickers/set-06/come.png",
+    "bytes": 443342
+  },
+  {
+    "id": "coming",
+    "name": "等一下",
+    "gif": "/stickers/set-06/coming.gif",
+    "png": "/stickers/set-06/coming.png",
+    "bytes": 440713
+  },
+  {
+    "id": "hmph",
+    "name": "什么",
+    "gif": "/stickers/set-06/hmph.gif",
+    "png": "/stickers/set-06/hmph.png",
+    "bytes": 366041
+  },
+  {
+    "id": "no",
+    "name": "真的吗",
+    "gif": "/stickers/set-06/no.gif",
+    "png": "/stickers/set-06/no.png",
+    "bytes": 454866
+  },
+  {
+    "id": "nohang",
+    "name": "收到",
+    "gif": "/stickers/set-06/nohang.gif",
+    "png": "/stickers/set-06/nohang.png",
+    "bytes": 419095
+  },
+  {
+    "id": "envy",
+    "name": "待会聊",
+    "gif": "/stickers/set-06/envy.gif",
+    "png": "/stickers/set-06/envy.png",
+    "bytes": 257042
+  },
+  {
+    "id": "work",
+    "name": "忙着呢",
+    "gif": "/stickers/set-06/work.gif",
+    "png": "/stickers/set-06/work.png",
+    "bytes": 350621
+  },
+  {
+    "id": "glass",
+    "name": "过来",
+    "gif": "/stickers/set-06/glass.gif",
+    "png": "/stickers/set-06/glass.png",
+    "bytes": 348028
+  },
+  {
+    "id": "face",
+    "name": "快走",
+    "gif": "/stickers/set-06/face.gif",
+    "png": "/stickers/set-06/face.png",
+    "bytes": 417436
+  },
+  {
+    "id": "ow",
+    "name": "对不起",
+    "gif": "/stickers/set-06/ow.gif",
+    "png": "/stickers/set-06/ow.png",
+    "bytes": 393933
+  },
+  {
+    "id": "party",
+    "name": "没关系",
+    "gif": "/stickers/set-06/party.gif",
+    "png": "/stickers/set-06/party.png",
+    "bytes": 386610
+  },
+  {
+    "id": "rank",
+    "name": "同意",
+    "gif": "/stickers/set-06/rank.gif",
+    "png": "/stickers/set-06/rank.png",
+    "bytes": 473866
+  },
+  {
+    "id": "first",
+    "name": "怀疑",
+    "gif": "/stickers/set-06/first.gif",
+    "png": "/stickers/set-06/first.png",
+    "bytes": 431382
+  },
+  {
+    "id": "feed",
+    "name": "已读",
+    "gif": "/stickers/set-06/feed.gif",
+    "png": "/stickers/set-06/feed.png",
+    "bytes": 376252
+  },
+  {
+    "id": "bye",
+    "name": "正在输入",
+    "gif": "/stickers/set-06/bye.gif",
+    "png": "/stickers/set-06/bye.png",
+    "bytes": 321960
+  }
+]

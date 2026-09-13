@@ -1,0 +1,114 @@
+[
+  {
+    "id": "fest",
+    "name": "祭",
+    "gif": "/stickers/set-03/fest.gif",
+    "png": "/stickers/set-03/fest.png",
+    "bytes": 422901
+  },
+  {
+    "id": "missyou",
+    "name": "转圈",
+    "gif": "/stickers/set-03/missyou.gif",
+    "png": "/stickers/set-03/missyou.png",
+    "bytes": 482435
+  },
+  {
+    "id": "alone",
+    "name": "烟花",
+    "gif": "/stickers/set-03/alone.gif",
+    "png": "/stickers/set-03/alone.png",
+    "bytes": 326414
+  },
+  {
+    "id": "reunion",
+    "name": "章鱼烧",
+    "gif": "/stickers/set-03/reunion.gif",
+    "png": "/stickers/set-03/reunion.png",
+    "bytes": 458321
+  },
+  {
+    "id": "full",
+    "name": "鞠躬",
+    "gif": "/stickers/set-03/full.gif",
+    "png": "/stickers/set-03/full.png",
+    "bytes": 379988
+  },
+  {
+    "id": "yum",
+    "name": "灯笼",
+    "gif": "/stickers/set-03/yum.gif",
+    "png": "/stickers/set-03/yum.png",
+    "bytes": 438679
+  },
+  {
+    "id": "moon",
+    "name": "金鱼",
+    "gif": "/stickers/set-03/moon.gif",
+    "png": "/stickers/set-03/moon.png",
+    "bytes": 437477
+  },
+  {
+    "id": "share",
+    "name": "糖苹果",
+    "gif": "/stickers/set-03/share.gif",
+    "png": "/stickers/set-03/share.png",
+    "bytes": 502147
+  },
+  {
+    "id": "box",
+    "name": "比心",
+    "gif": "/stickers/set-03/box.gif",
+    "png": "/stickers/set-03/box.png",
+    "bytes": 488325
+  },
+  {
+    "id": "rabbit",
+    "name": "害羞",
+    "gif": "/stickers/set-03/rabbit.gif",
+    "png": "/stickers/set-03/rabbit.png",
+    "bytes": 479701
+  },
+  {
+    "id": "wine",
+    "name": "你好",
+    "gif": "/stickers/set-03/wine.gif",
+    "png": "/stickers/set-03/wine.png",
+    "bytes": 487745
+  },
+  {
+    "id": "nosleep",
+    "name": "超开心",
+    "gif": "/stickers/set-03/nosleep.gif",
+    "png": "/stickers/set-03/nosleep.png",
+    "bytes": 442431
+  },
+  {
+    "id": "round",
+    "name": "好吃",
+    "gif": "/stickers/set-03/round.gif",
+    "png": "/stickers/set-03/round.png",
+    "bytes": 416433
+  },
+  {
+    "id": "cheers",
+    "name": "等我",
+    "gif": "/stickers/set-03/cheers.gif",
+    "png": "/stickers/set-03/cheers.png",
+    "bytes": 437531
+  },
+  {
+    "id": "cantgo",
+    "name": "夜祭",
+    "gif": "/stickers/set-03/cantgo.gif",
+    "png": "/stickers/set-03/cantgo.png",
+    "bytes": 461434
+  },
+  {
+    "id": "pricey",
+    "name": "走咯",
+    "gif": "/stickers/set-03/pricey.gif",
+    "png": "/stickers/set-03/pricey.png",
+    "bytes": 484926
+  }
+]

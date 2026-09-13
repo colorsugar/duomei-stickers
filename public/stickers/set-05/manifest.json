@@ -1,0 +1,114 @@
+[
+  {
+    "id": "hungry",
+    "name": "微笑",
+    "gif": "/stickers/set-05/hungry.gif",
+    "png": "/stickers/set-05/hungry.png",
+    "bytes": 365225
+  },
+  {
+    "id": "yum",
+    "name": "嘿嘿",
+    "gif": "/stickers/set-05/yum.gif",
+    "png": "/stickers/set-05/yum.png",
+    "bytes": 443172
+  },
+  {
+    "id": "treat",
+    "name": "嘟嘴",
+    "gif": "/stickers/set-05/treat.gif",
+    "png": "/stickers/set-05/treat.png",
+    "bytes": 425912
+  },
+  {
+    "id": "full",
+    "name": "不理你",
+    "gif": "/stickers/set-05/full.gif",
+    "png": "/stickers/set-05/full.png",
+    "bytes": 363206
+  },
+  {
+    "id": "want",
+    "name": "哇",
+    "gif": "/stickers/set-05/want.gif",
+    "png": "/stickers/set-05/want.png",
+    "bytes": 475433
+  },
+  {
+    "id": "eat",
+    "name": "无语",
+    "gif": "/stickers/set-05/eat.gif",
+    "png": "/stickers/set-05/eat.png",
+    "bytes": 437123
+  },
+  {
+    "id": "host",
+    "name": "尴尬",
+    "gif": "/stickers/set-05/host.gif",
+    "png": "/stickers/set-05/host.png",
+    "bytes": 428784
+  },
+  {
+    "id": "delivery",
+    "name": "暴怒",
+    "gif": "/stickers/set-05/delivery.gif",
+    "png": "/stickers/set-05/delivery.png",
+    "bytes": 429556
+  },
+  {
+    "id": "spicy",
+    "name": "闪亮",
+    "gif": "/stickers/set-05/spicy.gif",
+    "png": "/stickers/set-05/spicy.png",
+    "bytes": 467138
+  },
+  {
+    "id": "more",
+    "name": "晕乎乎",
+    "gif": "/stickers/set-05/more.gif",
+    "png": "/stickers/set-05/more.png",
+    "bytes": 353059
+  },
+  {
+    "id": "smell",
+    "name": "得意",
+    "gif": "/stickers/set-05/smell.gif",
+    "png": "/stickers/set-05/smell.png",
+    "bytes": 429634
+  },
+  {
+    "id": "diet",
+    "name": "害怕",
+    "gif": "/stickers/set-05/diet.gif",
+    "png": "/stickers/set-05/diet.png",
+    "bytes": 388014
+  },
+  {
+    "id": "night",
+    "name": "疑惑",
+    "gif": "/stickers/set-05/night.gif",
+    "png": "/stickers/set-05/night.png",
+    "bytes": 307447
+  },
+  {
+    "id": "pricey",
+    "name": "感动",
+    "gif": "/stickers/set-05/pricey.gif",
+    "png": "/stickers/set-05/pricey.png",
+    "bytes": 454262
+  },
+  {
+    "id": "clean",
+    "name": "发呆",
+    "gif": "/stickers/set-05/clean.gif",
+    "png": "/stickers/set-05/clean.png",
+    "bytes": 340595
+  },
+  {
+    "id": "wait",
+    "name": "心动",
+    "gif": "/stickers/set-05/wait.gif",
+    "png": "/stickers/set-05/wait.png",
+    "bytes": 463461
+  }
+]

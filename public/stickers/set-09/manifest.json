@@ -1,0 +1,114 @@
+[
+  {
+    "id": "sip",
+    "name": "送你",
+    "gif": "/stickers/set-09/sip.gif",
+    "png": "/stickers/set-09/sip.png",
+    "bytes": 393830
+  },
+  {
+    "id": "sugar",
+    "name": "好运",
+    "gif": "/stickers/set-09/sugar.gif",
+    "png": "/stickers/set-09/sugar.png",
+    "bytes": 459103
+  },
+  {
+    "id": "freeze",
+    "name": "送花",
+    "gif": "/stickers/set-09/freeze.gif",
+    "png": "/stickers/set-09/freeze.png",
+    "bytes": 478712
+  },
+  {
+    "id": "queue",
+    "name": "生日快乐",
+    "gif": "/stickers/set-09/queue.gif",
+    "png": "/stickers/set-09/queue.png",
+    "bytes": 532756
+  },
+  {
+    "id": "boba",
+    "name": "红包",
+    "gif": "/stickers/set-09/boba.gif",
+    "png": "/stickers/set-09/boba.png",
+    "bytes": 435467
+  },
+  {
+    "id": "more",
+    "name": "干杯",
+    "gif": "/stickers/set-09/more.gif",
+    "png": "/stickers/set-09/more.png",
+    "bytes": 397398
+  },
+  {
+    "id": "spill",
+    "name": "恭喜",
+    "gif": "/stickers/set-09/spill.gif",
+    "png": "/stickers/set-09/spill.png",
+    "bytes": 697327
+  },
+  {
+    "id": "hug",
+    "name": "新年快乐",
+    "gif": "/stickers/set-09/hug.gif",
+    "png": "/stickers/set-09/hug.png",
+    "bytes": 429810
+  },
+  {
+    "id": "die",
+    "name": "情人节",
+    "gif": "/stickers/set-09/die.gif",
+    "png": "/stickers/set-09/die.png",
+    "bytes": 459131
+  },
+  {
+    "id": "treat",
+    "name": "中秋快乐",
+    "gif": "/stickers/set-09/treat.gif",
+    "png": "/stickers/set-09/treat.png",
+    "bytes": 489996
+  },
+  {
+    "id": "wait",
+    "name": "许愿",
+    "gif": "/stickers/set-09/wait.gif",
+    "png": "/stickers/set-09/wait.png",
+    "bytes": 473180
+  },
+  {
+    "id": "wrong",
+    "name": "平安",
+    "gif": "/stickers/set-09/wrong.gif",
+    "png": "/stickers/set-09/wrong.png",
+    "bytes": 447912
+  },
+  {
+    "id": "night",
+    "name": "发财",
+    "gif": "/stickers/set-09/night.gif",
+    "png": "/stickers/set-09/night.png",
+    "bytes": 430685
+  },
+  {
+    "id": "pudding",
+    "name": "在一起",
+    "gif": "/stickers/set-09/pudding.gif",
+    "png": "/stickers/set-09/pudding.png",
+    "bytes": 538464
+  },
+  {
+    "id": "empty",
+    "name": "感恩",
+    "gif": "/stickers/set-09/empty.gif",
+    "png": "/stickers/set-09/empty.png",
+    "bytes": 453052
+  },
+  {
+    "id": "love",
+    "name": "祝福抱",
+    "gif": "/stickers/set-09/love.gif",
+    "png": "/stickers/set-09/love.png",
+    "bytes": 414560
+  }
+]
