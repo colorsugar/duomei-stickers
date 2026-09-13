@@ -191,11 +191,12 @@ export const PACKS: Pack[] = [
     name: "日常",
     nameEn: "Daily",
     outfit: "watermelon",
-    tagline: "笑死 刷短剧去了 666",
+    tagline: "笑死 难绷憋笑 666",
     accent: "blush",
-    updatedAt: "2026-09-09",
+    updatedAt: "2026-09-14",
     stickers: [
       { id: "lol", name: "笑死", motion: "laugh die" },
+      { id: "nanbeng", name: "难绷憋笑", motion: "cover mouth shake" },
       { id: "drama", name: "刷短剧去了", motion: "sneak phone" },
       { id: "bye", name: "拜拜", motion: "wave bye" },
       { id: "juice", name: "美汁汁", motion: "satisfied" },
@@ -246,11 +247,11 @@ export const PACKS: Pack[] = [
 ];
 
 export function stickerGif(packId: string, stickerId: string) {
-  return `/stickers/${packId}/${stickerId}.gif?v=76`;
+  return `/stickers/${packId}/${stickerId}.gif?v=77`;
 }
 
 export function stickerPng(packId: string, stickerId: string) {
-  return `/stickers/${packId}/${stickerId}.png?v=76`;
+  return `/stickers/${packId}/${stickerId}.png?v=77`;
 }
 
 export function getPack(id: string) {
