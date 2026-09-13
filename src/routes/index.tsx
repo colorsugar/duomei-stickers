@@ -20,6 +20,12 @@ function PackCard({ pack, index: packNo }: { pack: Pack; index: number }) {
       className="group flex flex-col overflow-hidden rounded-xl border border-line bg-surface shadow-card transition-[transform,box-shadow] duration-150 ease-out hover:-translate-y-0.5 hover:shadow-card-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-melon"
     >
       <span className={`block h-1 ${ACCENT[pack.accent]}`} />
+      <div className="bg-seed px-3 py-2.5">
+        <p className="font-display text-lg font-semibold leading-tight text-cream sm:text-xl">
+          {pack.name}
+        </p>
+        <p className="mt-0.5 truncate text-xs text-cream/70">{pack.tagline}</p>
+      </div>
       <div className="relative aspect-[4/3]">
         <StickerGif
           packId={pack.id}
@@ -31,10 +37,6 @@ function PackCard({ pack, index: packNo }: { pack: Pack; index: number }) {
         <span className="absolute left-3 top-3 rounded-full bg-ink/85 px-2 py-0.5 text-xs text-cream">
           {String(packNo + 1).padStart(2, "0")}
         </span>
-      </div>
-      <div className="space-y-1 px-4 py-3">
-        <p className="font-display text-base leading-tight text-ink sm:text-xl">{pack.name}</p>
-        <p className="text-xs text-muted">{pack.tagline}</p>
       </div>
     </Link>
   );
@@ -100,7 +102,8 @@ function Home() {
                 </div>
               ))}
             </div>
-            <p className="mt-3 text-center text-xs text-muted">第一套 · 西瓜日常 已完成</p>
+            <p className="mt-3 text-center font-display text-sm text-ink">西瓜日常</p>
+            <p className="mt-0.5 text-center text-xs text-muted">第一套 · 已完成</p>
           </div>
         </section>
 

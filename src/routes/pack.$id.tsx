@@ -41,13 +41,17 @@ function PackPage() {
           全部套装
         </Link>
 
-        <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="mt-5 overflow-hidden rounded-xl border border-line bg-surface shadow-card">
+          <span className={`block h-1 ${pack.accent === "rind" ? "bg-rind" : pack.accent === "blush" ? "bg-blush" : "bg-melon"}`} />
+          <div className="flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
           <div className="flex items-start gap-4">
-            <div className="hidden size-20 shrink-0 overflow-hidden rounded-md border border-line sm:block">
+            <div className="size-20 shrink-0 overflow-hidden rounded-md border border-line">
               <StickerGif packId={pack.id} stickerId={pack.stickers[0].id} alt={pack.name} animated={false} />
             </div>
             <div>
-              <p className="text-xs uppercase tracking-[0.16em] text-melon">{pack.nameEn}</p>
+              <p className="text-xs font-medium uppercase tracking-[0.16em] text-melon">
+                {pack.nameEn}
+              </p>
               <h1 className="mt-1 font-display text-4xl text-ink">{pack.name}</h1>
               <p className="mt-2 text-sm text-muted sm:text-base">
                 {pack.tagline} · {pack.stickers.length} 张 · {STORE_SPEC.size}
@@ -85,6 +89,7 @@ function PackPage() {
             </a>
           )}
           </div>
+          </div>
         </div>
         {inProgress ? (
           <p className="mt-3 rounded-md border border-line bg-surface px-4 py-3 text-sm text-muted">
@@ -93,7 +98,8 @@ function PackPage() {
         ) : null}
         {msg ? <p className="mt-2 text-sm text-muted">{msg}</p> : null}
 
-        <div className="mt-8 mb-3 flex justify-end">
+        <div className="mt-8 mb-3 flex items-end justify-between gap-3">
+          <h2 className="font-display text-xl text-ink">{pack.name}</h2>
           <label className="flex items-center gap-2 text-sm text-muted">
             排序
             <select

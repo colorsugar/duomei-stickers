@@ -17,26 +17,26 @@ export function SiteHeader() {
             <span className="mt-0.5 text-xs text-muted">Duomei Sticker Studio</span>
           </span>
         </Link>
-        <nav className="flex items-center gap-1 text-sm font-medium text-muted">
+        <nav className="flex shrink-0 items-center gap-0.5 text-sm font-medium text-muted">
           <Link
             to="/"
             hash="packs"
-            className="tap-target inline-flex items-center rounded-md px-3 hover:bg-surface-2 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-melon"
+            className="tap-target inline-flex items-center whitespace-nowrap rounded-md px-2 hover:bg-surface-2 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-melon sm:px-3"
           >
-            全部套装
+            套装
           </Link>
           <Link
             to="/refs"
-            className="tap-target inline-flex items-center rounded-md px-3 hover:bg-surface-2 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-melon"
+            className="tap-target inline-flex items-center whitespace-nowrap rounded-md px-2 hover:bg-surface-2 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-melon sm:px-3"
           >
             设定图
           </Link>
           <Link
             to="/"
             hash="spec"
-            className="tap-target inline-flex items-center rounded-md px-3 hover:bg-surface-2 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-melon"
+            className="tap-target inline-flex items-center whitespace-nowrap rounded-md px-2 hover:bg-surface-2 hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-melon sm:px-3"
           >
-            上架规格
+            规格
           </Link>
         </nav>
       </div>
