@@ -77,7 +77,7 @@ function PackPage() {
           </button>
           {inProgress ? null : (
             <a
-              href={`/downloads/${pack.id}.zip?v=72`}
+              href={`/downloads/${pack.id}.zip?v=73`}
               download={`${pack.name}.zip`}
               className="inline-flex h-11 items-center justify-center rounded-md border border-line px-4 text-sm font-semibold text-ink"
             >
