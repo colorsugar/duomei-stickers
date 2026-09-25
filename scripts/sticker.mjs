@@ -3,7 +3,7 @@
  * 多美表情包流水线：视频 → 无缝循环 GIF → 自动质检 → 上架。
  * 依赖：ffmpeg、gifsicle（mac: brew install ffmpeg gifsicle）。
  *
- *   node scripts/sticker.mjs make <video.mp4> --pack set-08 --id angry [--mode auto|cut|boomerang] [--start N --len N]
+ *   node scripts/sticker.mjs make <video.mp4> --pack set-08 --id angry [--mode auto|cut|boomerang] [--start N --len N] [--speed 1.5]
  *   node scripts/sticker.mjs qa <pack> [id ...]        # 不合格 exit 1，并生成逐帧对照图
  *   node scripts/sticker.mjs publish <pack>            # 更新 manifest / sizes / index，刷新 ?v= 缓存版本
  *
@@ -76,12 +76,12 @@ export function findLoop(video, fps = 24) {
   return { cut, boom, best: cut && cut.ratio <= 1.0 ? cut : boom };
 }
 
-function encode(video, out, { mode, start, len }) {
+function encode(video, out, { mode, start, len }, speed = 1) {
   const tmp = mkdtempSync(join(tmpdir(), "sticker-"));
   try {
     // 先降帧率再拼循环：否则 boomerang 接缝处的帧会被丢掉
     const loopGraph = (fps) => {
-      const trim = `trim=start_frame=${start}:end_frame=${start + len},setpts=PTS-STARTPTS,fps=${fps},scale=${SPEC.size}:${SPEC.size}:flags=lanczos`;
+      const trim = `trim=start_frame=${start}:end_frame=${start + len},setpts=(PTS-STARTPTS)/${speed},fps=${fps},scale=${SPEC.size}:${SPEC.size}:flags=lanczos`;
       // 不做首尾淡入淡出：会出重影。接不上就用 boomerang。
       return mode === "boomerang"
         ? `[0:v]${trim},split[f][r];[r]reverse,trim=start_frame=1,setpts=PTS-STARTPTS[rv0];[rv0]reverse,trim=start_frame=1,reverse,setpts=PTS-STARTPTS[rv];[f][rv]concat=n=2:v=1[o]`
@@ -206,14 +206,16 @@ function main() {
   if (cmd === "make") {
     const [video] = a._;
     if (!video || !a.pack || !a.id) throw new Error("用法: make <video> --pack set-XX --id <id>");
-    const { cut, boom, best } = findLoop(video);
+    // 加速时按加速后的时长选片段（源视频 24fps）
+    const { cut, boom, best } = findLoop(video, 24 * Number(a.speed ?? 1));
     let plan = best;
     if (a.mode === "cut") plan = cut;
     if (a.mode === "boomerang") plan = boom;
     if (a.start) plan = { ...plan, start: Number(a.start), len: Number(a.len ?? plan.len) };
     mkdirSync(join(STICKERS, a.pack), { recursive: true });
     const out = join(STICKERS, a.pack, `${a.id}.gif`);
-    const enc = encode(video, out, plan);
+    const speed = Number(a.speed ?? 1);
+    const enc = encode(video, out, plan, speed);
     const q = qaGif(out);
     console.log(JSON.stringify({ id: a.id, plan: { mode: plan.mode, start: plan.start, len: plan.len }, ...enc, ...q.metrics }));
     if (!q.ok) { console.log(`❌ ${a.id}: ${q.problems.join("；")}`); process.exitCode = 1; }

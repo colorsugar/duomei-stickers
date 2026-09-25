@@ -44,6 +44,8 @@ Same locked watermelon-skin Duomei as the classic character sheet: chibi girl, W
 Locked camera, no zoom, no pan, no tilt. Square 1:1. Character stays full-body centered the entire time. Background and bottom caption stay completely still. One complete action in 3 seconds: anticipation → big climax → return to the exact starting pose, then repeat. First frame pose equals last frame pose. Large continuous motion, no freeze-frame, no sudden jump. Same face, hair, outfit throughout. No extra limbs.
 ```
 
+打击类（打、抽、踢、捶、踩）要**快、连续**：3 秒内连打 3–4 下，中间不停顿（视频提示词写 rapid consecutive hits, no pause between hits）；做 GIF 时加 `--mode cut --speed 1.6`，不要用 boomerang（倒放会让被打的飞回来）。
+
 动作要大、要有情绪高潮：打/抽/踢要凶要快；"无语""白眼"这类表情也要有完整动作（耸肩、仰头翻眼），不能只是站着眨眼。
 
 # 流程
