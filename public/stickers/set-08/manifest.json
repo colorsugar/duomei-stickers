@@ -39,21 +39,21 @@
     "name": "冲冲冲",
     "gif": "/stickers/set-08/flick.gif",
     "png": "/stickers/set-08/flick.png",
-    "bytes": 386705
+    "bytes": 441270
   },
   {
     "id": "stomp",
     "name": "充满电",
     "gif": "/stickers/set-08/stomp.gif",
     "png": "/stickers/set-08/stomp.png",
-    "bytes": 469331
+    "bytes": 487002
   },
   {
     "id": "throw",
     "name": "跳舞",
     "gif": "/stickers/set-08/throw.gif",
     "png": "/stickers/set-08/throw.png",
-    "bytes": 367413
+    "bytes": 439863
   },
   {
     "id": "pinch",
@@ -74,14 +74,14 @@
     "name": "流汗",
     "gif": "/stickers/set-08/glare.gif",
     "png": "/stickers/set-08/glare.png",
-    "bytes": 442391
+    "bytes": 424191
   },
   {
     "id": "hmph",
     "name": "歇一会",
     "gif": "/stickers/set-08/hmph.gif",
     "png": "/stickers/set-08/hmph.png",
-    "bytes": 347550
+    "bytes": 442556
   },
   {
     "id": "tantrum",
@@ -102,13 +102,13 @@
     "name": "小太阳",
     "gif": "/stickers/set-08/eyeroll.gif",
     "png": "/stickers/set-08/eyeroll.png",
-    "bytes": 435530
+    "bytes": 431551
   },
   {
     "id": "pout",
     "name": "完成",
     "gif": "/stickers/set-08/pout.gif",
     "png": "/stickers/set-08/pout.png",
-    "bytes": 413824
+    "bytes": 485761
   }
 ]
