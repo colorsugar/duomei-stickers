@@ -2,99 +2,85 @@
 name: duomei-stickers
 description: >
   多美表情包通用制作流程。主角永远是多美。用户只说主题时先读本 skill 再开工。
-  默认西瓜原皮；6秒视频取约3秒；ffmpeg 转 240×240 GIF；30fps；400–500KB。
+  生成 6 秒视频 → scripts/sticker.mjs 自动截无缝循环、压 240×240 ≤500KB、自动质检 → 看对照图 → 上架。
   Triggers: 表情包, sticker, GIF, 多美, 贴纸, 皮肤, 设定图.
 metadata:
-  short-description: "多美表情包：搜热门 / 3s 30fps / 400-500KB / 过不了必须改"
+  short-description: "多美表情包：6s 视频 → sticker.mjs make/qa/publish，质检不过不许交"
 user-invocable: true
 ---
 
-# 每次开工
+# 硬规矩（违反任何一条 = 没交付）
 
-1. 读完本 skill。用户说「做××主题表情包」= 按这里执行，不要再问已定规矩。
-2. **先搜**这个主题的热门表情包（微信 / QQ / 微博、LINE、Telegram）。学做法：镜头、节奏、循环、什么时候加字。禁止抄 gag、抄构图、抄别人角色。
-3. 先写这一套的动作清单（默认 16 张）。每张：姿势、镜头、情绪、打谁、加不加字。动作必须互不相同。
-4. 用户没点名的旧表情 **禁止重做**（不许顺手改时长、改字、换动作）。
+1. **GIF 只能用 `scripts/sticker.mjs make` 生成**。禁止手写 ffmpeg 截取、禁止自己加首尾淡入淡出（会出重影）。
+2. **`node scripts/sticker.mjs qa <pack>` 全部 ✅ 才能交付**。有 ❌ 就按提示改（换片段 / 重生成视频），不许解释为什么"其实可以"。
+3. **必须打开 `.sticker-qa/<pack>-sheet.png` 逐行看**，并在回复里逐张写一句看到了什么（动作、发色、描边、字）。没看图 = 没检查。
+4. **上架只用 `node scripts/sticker.mjs publish <pack>`**。它会更新 manifest / sizes / index 和缓存版本号，并拒绝上架不合格的图。
+5. 上架后打开线上套装页确认图片真的能显示（不是 404、不是旧图）。
+6. 用户没点名的旧表情禁止重做。
+
+# 画风（参考 set-05 美食篇、set-06 上号）
+
+- 人物外一圈**白色贴纸描边**，奶油底或干净纯色底，色块平整、自然鲜艳。
+- 字：粗体大字 + 白色描边，放底部，不挡脸，一套里字体统一。
+- **不要用调色（eq / saturation / colorbalance）把灰图"拉鲜艳"**：会发冲、头发变橙、底发黄。颜色不好 = 重新生成。
 
 # 角色
 
-- **主角永远是多美。** 脸、发型、体型不许换。
-- **没说皮肤 = 西瓜原皮**（红背带、白 T、西瓜包、西瓜髻 + 藤、红鞋）。
-- 指定皮肤就换。让生成新皮肤：先出设定图，存设定图，这套全部锁这张。
-- 一套一种皮。禁止中途换脸换头。
-- 原皮设定图：`public/refs/watermelon-white.jpg`。
+- 主角永远是多美。脸、发型、体型不许换。一套一种皮，禁止中途换脸换头。
+- 没说皮肤 = 西瓜原皮：**棕色短发**（不是黑色）+ 西瓜髻和藤叶、白 T、樱桃红西瓜籽背带、西瓜包、红鞋。
+- 设定图：`public/refs/watermelon-white.jpg`。
 
-# 颜色（每次交付前必须做，过不了不许发）
+# 提示词（每张都要带）
 
-对照 `public/refs/watermelon-white.jpg`（或这套锁定的设定图），把 GIF **第一帧、中间帧、最后一帧** 和设定图并排看。
+静帧锁皮（英文，放每张静帧提示词开头）：
 
-必须：
-- 背带是樱桃红（参考大约 R 210–225，G 80–100，B 70–85），不是灰、绿、橘、品红、棕
-- 底是奶油白，不是黄绿、脏黄、灰
-- 皮肤不是发青、发灰
-- 压缩后不能丢色。palette **尽量 48–64**，32 是下限。禁止 8/16 色把红衣服压灰
-- 源视频已经偏色 = **重生成视频**，不要硬转
-- 转 GIF 可用 `eq` / `colorbalance` 拉红，但不要整段发紫
+```
+Same locked watermelon-skin Duomei as the classic character sheet: chibi girl, WARM CHOCOLATE-BROWN short bob with blunt bangs (NOT black), round watermelon bun on the crown with a curly green vine and one small leaf, pink oval blush, huge round dark-brown eyes. White T-shirt under SATURATED cherry-watermelon-red overall shorts with black seed dots, watermelon-slice crossbody bag, white socks, bright red sneakers. Thick clean WHITE STICKER DIE-CUT OUTLINE around the whole character. Cream paper background, flat colors, cute sticker illustration, square 1:1. Bold Chinese caption at the BOTTOM with thick white outline, not covering face. Full body centered, head-to-shoes visible.
+```
 
-只看文件大小、不看图就发 = 没检查。这一关不过 = 没交付。
+视频镜头锁（放每张视频提示词末尾）：
 
-# 规格（缺一条打回）
+```
+Locked camera, no zoom, no pan, no tilt. Square 1:1. Character stays full-body centered the entire time. Background and bottom caption stay completely still. One complete action in 3 seconds: anticipation → big climax → return to the exact starting pose, then repeat. First frame pose equals last frame pose. Large continuous motion, no freeze-frame, no sudden jump. Same face, hair, outfit throughout. No extra limbs.
+```
+
+动作要大、要有情绪高潮：打/抽/踢要凶要快；"无语""白眼"这类表情也要有完整动作（耸肩、仰头翻眼），不能只是站着眨眼。
+
+# 流程
+
+1. 写动作清单（每张：动作、情绪、打谁、字）。动作互不相同，站、坐、躺、转身、特写都要有。
+2. 出静帧 → 看过再出 **6 秒 1:1 视频**。视频里出现分身、多手、脸漂、黑发、残字 = 重生成。
+3. 每张：
+   ```
+   node scripts/sticker.mjs make <video.mp4> --pack set-XX --id <id>
+   ```
+   自动选片段：首尾接得上就直接截（cut），接不上就正放+倒放（boomerang）。
+   **自动选的片段不一定是"有梗"的那段**（比如"不想理你"应该是转身背对，而不是转回来）。看对照图不对就手动指定：
+   ```
+   node scripts/sticker.mjs make <video.mp4> --pack set-XX --id <id> --mode boomerang --start 4 --len 38
+   ```
+   `--start/--len` 是源视频的帧号（24fps），先抽帧条看动作在哪几帧。
+4. `node scripts/sticker.mjs qa set-XX` → 全 ✅ + 看对照图。
+5. `src/lib/packs.ts` 里登记这套（PACKS + READY_PACK_IDS），再 `node scripts/sticker.mjs publish set-XX`，commit + push main（Vercel 自动部署）。
+6. 打开 `https://duomei.vercel.app/pack/set-XX` 确认。
+
+# 质检标准（sticker.mjs 自动判）
 
 | 项 | 标准 |
 |---|---|
-| 画幅 | 1:1，成品 240×240 |
-| 视频 | 6 秒、480p、1:1，再截约 3 秒完整动作 |
-| GIF | 约 3 秒，动作做完。禁止半截、禁止倒放当循环 |
-| 帧率 | **每秒 30 帧**，不是总帧数 30 |
-| 体积 | **400KB–500KB** |
-| 循环 | 无限，收尾帧对得上 |
-| 画质 | 红衣服必须是红的。禁止糊、锯齿、紫边、抠图描边、脚被裁掉 |
-| 颜色压缩 | palette ≥32 色。超体积用 gifsicle 有损，禁止砍到 8 色发灰 |
+| 尺寸 | 240×240 |
+| 体积 | ≤ 495KB（微信 500KB） |
+| 帧率 | ≥ 14fps（通常 16–20） |
+| 时长 | 2–4.5 秒 |
+| 动作量 | 平均每帧变化 ≥ 1.5，否则"几乎不动" |
+| 循环接缝 | 首尾跳变 ≤ 附近正常变化的 1.5 倍 |
+| 停住帧 | ≤ 30% |
+| 突跳帧 | ≤ 15% |
 
-# 流程（跳过不许交付）
+自动检查看不出：重影、发色、描边、字错、多手多脚、动作没梗 —— 这些靠看对照图。
 
-1. 搜热门 → 写 16 个不同动作（站、坐、躺、打、踢、转身、特写都要有，禁止全员站着）。
-2. 静帧过了才做视频。提示词锁多美这张脸、两只手两条腿、红鞋完整。不要把标题汉字写进提示词（模型会画进画面）。
-3. **查视频**：标题对不对、动作做完没、有没有分身/多手/脸漂/残字/微笑打人。不合格重生成视频，不许硬转 GIF。
-4. ffmpeg **整段视频转 GIF**。禁止抽几张静帧拼。
-5. **查 GIF**：连贯、约 3 秒、30fps、封面=第一帧且和点进去一致、体积 400–500KB。
-6. **查颜色（强制）**：GIF 首/中/尾帧和设定图并排看。红衣服发灰/发绿/发橘/发品红，或背景发黄绿 = 打回。过不了不许发。
-7. 过不了必须改。只写报告不改 = 没做完。
-8. 改完再更新下载包，禁止把旧 zip 交给用户。
+# 交付给用户
 
-# 动作
-
-- 每张单独设计，禁止复制粘贴只改字。
-- 标题 = 画面正在发生的事。
-- 打、抽、踢、扇：要生气、要快、要连续，禁止微笑、禁止摆拍一下。攻击类可加受击物，击打要合理。
-- 不会动的装饰别加。不是每张都要花字特效。
-- 背景可以有情景，不必强行纯色抠图。
-
-# 文字（自己判断，不许一刀切）
-
-- 口头禅、夸人、游戏黑话：适合加。
-- 纯动作（打、踢、踩、翻白眼）：默认不加。
-- 视频里已经有字，不要再叠一层。
-- 字不要挡脸。大字可以当背景。字色不要和红衣服撞。
-- 禁止乱码、禁止没让加的字。
-
-# 主题
-
-往年轻人会用的靠：节日、美食（一套就够）、游戏黑话、日常吐槽。国旗用中国国旗。不要生造没人会发的句子。
-
-# 禁止
-
-- 抄别人角色和动作
-- 换掉多美的脸、一套里换头
-- 全站着同质化
-- 假动图、4 帧充数、倒放充循环
-- 没查就交付、没做完提前交付
-- 体积不在 400–500KB 还交
-- 颜色失真还交（没和设定图并排看就发）
-
-# 交付
-
-- 单张可以直接丢对话里播。改完一张，必须把那张 GIF 文件发到对话里，禁止只丢页面链接让用户自己点进去。
-- 发之前必须已经完成「查颜色」。没并排看设定图 = 不许发。
-- 格子里直接播 GIF，点击放大下载，显示体积。
-- 整套做完、审核过了才交。
+- 逐张一句话：动作 + 质检数值（fps / KB）+ 看图结论。
+- 有问题的明确说哪张、什么问题、下一步怎么办。不许只说"都没问题"。
+- 用户那边（Claude / 另一个助手）会复查。如果只交视频不上架，mp4 传 tmpfiles.org 给 `/dl/` 直链（assets.grok.com 需要登录，外面下载不了）。

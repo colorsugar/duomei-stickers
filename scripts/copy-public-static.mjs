@@ -4,14 +4,16 @@
  * Vite/Nitro must not ingest hundreds of GIFs during transform (OOM).
  * Only ship packs the site actually lists (READY_PACK_IDS). Source GIFs stay in public/.
  */
-import { cpSync, existsSync, mkdirSync, readdirSync, rmSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const src = join(root, "public");
 const dest = join(root, ".vercel", "output", "static");
-const READY = ["set-01", "set-02", "set-03", "set-04", "set-05", "set-06", "set-07", "set-08", "set-18", "set-19"];
+// 唯一来源：src/lib/packs.ts 的 READY_PACK_IDS（以前这里另抄了一份，漏改就 404）
+const packsSrc = readFileSync(join(root, "src", "lib", "packs.ts"), "utf8");
+const READY = JSON.parse(`[${packsSrc.match(/READY_PACK_IDS = \[([^\]]*)\]/)[1].replace(/,\s*$/, "")}]`);
 
 if (!existsSync(src)) {
   console.log("[copy-public] no public/ directory — skip");
