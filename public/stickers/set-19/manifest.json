@@ -1,0 +1,58 @@
+[
+  {
+    "id": "pingpong",
+    "name": "乒乓",
+    "gif": "/stickers/set-19/pingpong.gif",
+    "png": "/stickers/set-19/pingpong.png",
+    "bytes": 487801
+  },
+  {
+    "id": "badminton",
+    "name": "杀",
+    "gif": "/stickers/set-19/badminton.gif",
+    "png": "/stickers/set-19/badminton.png",
+    "bytes": 486866
+  },
+  {
+    "id": "dive",
+    "name": "跳水",
+    "gif": "/stickers/set-19/dive.gif",
+    "png": "/stickers/set-19/dive.png",
+    "bytes": 484632
+  },
+  {
+    "id": "swim",
+    "name": "游",
+    "gif": "/stickers/set-19/swim.gif",
+    "png": "/stickers/set-19/swim.png",
+    "bytes": 410660
+  },
+  {
+    "id": "gym",
+    "name": "稳",
+    "gif": "/stickers/set-19/gym.gif",
+    "png": "/stickers/set-19/gym.png",
+    "bytes": 340596
+  },
+  {
+    "id": "lift",
+    "name": "起",
+    "gif": "/stickers/set-19/lift.gif",
+    "png": "/stickers/set-19/lift.png",
+    "bytes": 446612
+  },
+  {
+    "id": "archery",
+    "name": "瞄准",
+    "gif": "/stickers/set-19/archery.gif",
+    "png": "/stickers/set-19/archery.png",
+    "bytes": 373416
+  },
+  {
+    "id": "wushu",
+    "name": "嘿",
+    "gif": "/stickers/set-19/wushu.gif",
+    "png": "/stickers/set-19/wushu.png",
+    "bytes": 451467
+  }
+]

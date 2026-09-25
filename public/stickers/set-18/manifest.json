@@ -1,0 +1,58 @@
+[
+  {
+    "id": "dash",
+    "name": "冲啊",
+    "gif": "/stickers/set-18/dash.gif",
+    "png": "/stickers/set-18/dash.png",
+    "bytes": 486478
+  },
+  {
+    "id": "cheer",
+    "name": "加油",
+    "gif": "/stickers/set-18/cheer.gif",
+    "png": "/stickers/set-18/cheer.png",
+    "bytes": 493399
+  },
+  {
+    "id": "first",
+    "name": "第一名",
+    "gif": "/stickers/set-18/first.gif",
+    "png": "/stickers/set-18/first.png",
+    "bytes": 433910
+  },
+  {
+    "id": "relay",
+    "name": "接力",
+    "gif": "/stickers/set-18/relay.gif",
+    "png": "/stickers/set-18/relay.png",
+    "bytes": 440567
+  },
+  {
+    "id": "tired",
+    "name": "累瘸了",
+    "gif": "/stickers/set-18/tired.gif",
+    "png": "/stickers/set-18/tired.png",
+    "bytes": 439343
+  },
+  {
+    "id": "champ",
+    "name": "冠军",
+    "gif": "/stickers/set-18/champ.gif",
+    "png": "/stickers/set-18/champ.png",
+    "bytes": 439428
+  },
+  {
+    "id": "tug",
+    "name": "拔河",
+    "gif": "/stickers/set-18/tug.gif",
+    "png": "/stickers/set-18/tug.png",
+    "bytes": 488632
+  },
+  {
+    "id": "rope",
+    "name": "跳绳",
+    "gif": "/stickers/set-18/rope.gif",
+    "png": "/stickers/set-18/rope.png",
+    "bytes": 463259
+  }
+]
