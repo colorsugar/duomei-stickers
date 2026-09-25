@@ -290,11 +290,11 @@ export const PACKS: Pack[] = [
 ];
 
 export function stickerGif(packId: string, stickerId: string) {
-  return `/stickers/${packId}/${stickerId}.gif?v=84`;
+  return `/stickers/${packId}/${stickerId}.gif?v=85`;
 }
 
 export function stickerPng(packId: string, stickerId: string) {
-  return `/stickers/${packId}/${stickerId}.png?v=84`;
+  return `/stickers/${packId}/${stickerId}.png?v=85`;
 }
 
 export function getPack(id: string) {
