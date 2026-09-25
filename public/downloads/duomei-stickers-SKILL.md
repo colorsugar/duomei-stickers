@@ -18,6 +18,23 @@ user-invocable: true
 5. 上架后打开线上套装页确认图片真的能显示（不是 404、不是旧图）。
 6. 用户没点名的旧表情禁止重做。
 
+# 表情包设计（最重要：要"好用"，不是"会动"）
+
+用户会拿去微信里发的，才算好表情包。每张先回答：**什么聊天场景会发它？笑点/情绪爆点在哪？**
+
+- **夸张 > 写实**。Q 版漫画式反应：眼睛翻成全白、腮帮鼓成河豚、头顶火山喷发、眼泪喷成两道水柱、身体压扁拉长。
+- **节奏：蓄力 → 瞬间爆发 → 余韵**。禁止慢悠悠、匀速、像摆拍。爆发那一下要快（2–4 帧完成）。
+- **漫画特效**：速度线、冲击爆点、青筋井字、汗滴、蒸汽、小乌云、星星、问号。特效要跟着动作出现，不要一直挂着。
+- **有梗**：优先用大家都懂的说法和姿势（小拳拳捶你胸口、我真的会谢、傲娇扭头偷看、撒泼打滚、给你一拳、原地爆炸）。文字 = 聊天里会打出来的那句话。
+- **一张只讲一件事**，3 秒内看懂。
+- 参考方向：国内热门 Q 版表情（如各类萌系 IP 的动态表情）。只学节奏和夸张程度，禁止抄角色和构图。
+
+视频提示词必须带这一段（放动作描述后、镜头锁前）：
+
+```
+Exaggerated Chinese chibi meme-sticker animation, snappy cartoon timing: quick anticipation, then an instant explosive action, then a short hold. Squash and stretch, smear frames, anime reaction effects (speed lines, impact bursts, anger veins, sweat drops, steam puffs) that appear with the action. Huge readable facial expression change. Not slow, not floaty, not realistic.
+```
+
 # 画风（参考 set-05 美食篇、set-06 上号）
 
 - 人物外一圈**白色贴纸描边**，奶油底或干净纯色底，色块平整、自然鲜艳。
