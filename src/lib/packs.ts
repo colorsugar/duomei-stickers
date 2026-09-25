@@ -235,7 +235,7 @@ export const PACKS: Pack[] = [
       { id: "flick", name: "无语", motion: "deadpan" },
       { id: "stomp", name: "踩你", motion: "stomp" },
       { id: "throw", name: "滚", motion: "point out" },
-      { id: "hammer", name: "锤你", motion: "bat tap" },
+      { id: "hammer", name: "捶你", motion: "bat tap" },
       { id: "glare", name: "服了", motion: "facepalm" },
       { id: "hmph", name: "哼", motion: "hmph" },
       { id: "tantrum", name: "气死了", motion: "lying tantrum" },
@@ -290,11 +290,11 @@ export const PACKS: Pack[] = [
 ];
 
 export function stickerGif(packId: string, stickerId: string) {
-  return `/stickers/${packId}/${stickerId}.gif?v=87`;
+  return `/stickers/${packId}/${stickerId}.gif?v=88`;
 }
 
 export function stickerPng(packId: string, stickerId: string) {
-  return `/stickers/${packId}/${stickerId}.png?v=87`;
+  return `/stickers/${packId}/${stickerId}.png?v=88`;
 }
 
 export function getPack(id: string) {

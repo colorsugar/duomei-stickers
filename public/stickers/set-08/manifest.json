@@ -4,35 +4,35 @@
     "name": "打你",
     "gif": "/stickers/set-08/punch.gif",
     "png": "/stickers/set-08/punch.png",
-    "bytes": 424701
+    "bytes": 429359
   },
   {
     "id": "slap",
     "name": "笨笨",
     "gif": "/stickers/set-08/slap.gif",
     "png": "/stickers/set-08/slap.png",
-    "bytes": 478393
+    "bytes": 460507
   },
   {
     "id": "dummy",
     "name": "抽你",
     "gif": "/stickers/set-08/dummy.gif",
     "png": "/stickers/set-08/dummy.png",
-    "bytes": 471625
+    "bytes": 425638
   },
   {
     "id": "kick",
     "name": "暴打",
     "gif": "/stickers/set-08/kick.gif",
     "png": "/stickers/set-08/kick.png",
-    "bytes": 503644
+    "bytes": 476739
   },
   {
     "id": "bite",
     "name": "崩了你",
     "gif": "/stickers/set-08/bite.gif",
     "png": "/stickers/set-08/bite.png",
-    "bytes": 486299
+    "bytes": 465455
   },
   {
     "id": "flick",
@@ -57,10 +57,10 @@
   },
   {
     "id": "hammer",
-    "name": "锤你",
+    "name": "捶你",
     "gif": "/stickers/set-08/hammer.gif",
     "png": "/stickers/set-08/hammer.png",
-    "bytes": 410896
+    "bytes": 443584
   },
   {
     "id": "glare",
@@ -81,7 +81,7 @@
     "name": "气死了",
     "gif": "/stickers/set-08/tantrum.gif",
     "png": "/stickers/set-08/tantrum.png",
-    "bytes": 509106
+    "bytes": 441524
   },
   {
     "id": "angry",
@@ -109,14 +109,14 @@
     "name": "飞踢",
     "gif": "/stickers/set-08/flykick.gif",
     "png": "/stickers/set-08/flykick.png",
-    "bytes": 445659
+    "bytes": 463529
   },
   {
     "id": "niu",
     "name": "牛啊",
     "gif": "/stickers/set-08/niu.gif",
     "png": "/stickers/set-08/niu.png",
-    "bytes": 488179
+    "bytes": 487415
   },
   {
     "id": "bukui",
