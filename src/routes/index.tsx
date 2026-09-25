@@ -59,10 +59,10 @@ function Home() {
               多美表情包工坊
             </h1>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-muted">
-              西瓜日常、海边、中秋、国庆。每套 16 张，3 秒完整动作，240×240，500KB 内可上架。
+              西瓜日常、海边、中秋、国庆、运动会、亚运会。每套 3 秒完整动作，240×240，500KB 内可上架。
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
-              {["中秋国庆", "年轻人"].map((t) => (
+              {["中秋国庆", "运动会", "亚运会", "年轻人"].map((t) => (
                 <span
                   key={t}
                   className="rounded-full border border-line bg-surface px-3 py-1 text-xs text-ink"
@@ -74,10 +74,10 @@ function Home() {
             <div className="mt-7 flex flex-wrap gap-3">
             <Link
               to="/pack/$id"
-              params={{ id: "set-01" }}
+              params={{ id: "set-19" }}
               className="inline-flex h-11 items-center justify-center rounded-md bg-melon px-5 text-sm font-semibold text-cream transition-transform duration-150 ease-out active:scale-[0.96]"
             >
-              打开第一套
+              打开亚运会
             </Link>
             <Link
               to="/"

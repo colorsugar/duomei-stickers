@@ -196,7 +196,7 @@ export const PACKS: Pack[] = [
     updatedAt: "2026-09-14",
     stickers: [
       { id: "lol", name: "笑死", motion: "lie back kick laugh" },
-      { id: "nanbeng", name: "难绷憋笑", motion: "cover mouth shake" },
+      { id: "nanbeng", name: "难绷愧笑", motion: "cover mouth shake" },
       { id: "haha", name: "哈哈哈哈", motion: "bend over belly laugh" },
       { id: "meizi", name: "美滋滋", motion: "sit rub cheeks smug" },
       { id: "six", name: "666", motion: "finger guns bounce" },
@@ -244,24 +244,64 @@ export const PACKS: Pack[] = [
       { id: "pout", name: "不想理你", motion: "turn away" },
       { id: "flykick", name: "飞踢", motion: "flying kick pig" },
       { id: "niu", name: "牛啊", motion: "thumbs up at you" },
-      { id: "bukui", name: "不愧是你", motion: "clap praise" },
+      { id: "bukui", name: "不夸是你", motion: "clap praise" },
+    ],
+  },
+  {
+    id: "set-18",
+    slug: "sports-meet",
+    name: "运动会",
+    nameEn: "Sports Meet",
+    outfit: "watermelon",
+    tagline: "冲啊 加油 第一名",
+    accent: "rind",
+    updatedAt: "2026-09-26",
+    stickers: [
+      { id: "dash", name: "冲啊", motion: "sprint track" },
+      { id: "cheer", name: "加油", motion: "cheer" },
+      { id: "first", name: "第一名", motion: "long finish tape" },
+      { id: "relay", name: "接力", motion: "relay baton" },
+      { id: "tired", name: "累瘫了", motion: "collapse" },
+      { id: "champ", name: "冠军", motion: "trophy" },
+      { id: "tug", name: "拔河", motion: "tug of war" },
+      { id: "rope", name: "跳绳", motion: "jump rope" },
+    ],
+  },
+  {
+    id: "set-19",
+    slug: "asian-games",
+    name: "亚运会",
+    nameEn: "Asian Games",
+    outfit: "watermelon",
+    tagline: "乒乓 跳水 瞄准",
+    accent: "melon",
+    updatedAt: "2026-09-26",
+    stickers: [
+      { id: "pingpong", name: "乒乓", motion: "table tennis smash" },
+      { id: "badminton", name: "杀", motion: "badminton smash" },
+      { id: "dive", name: "跳水", motion: "dive takeoff" },
+      { id: "swim", name: "游", motion: "swim lane" },
+      { id: "gym", name: "稳", motion: "gym landing" },
+      { id: "lift", name: "起", motion: "clean and jerk" },
+      { id: "archery", name: "瞄准", motion: "draw bow" },
+      { id: "wushu", name: "嘿", motion: "side kick" },
     ],
   },
 ];
 
 export function stickerGif(packId: string, stickerId: string) {
-  return `/stickers/${packId}/${stickerId}.gif?v=80`;
+  return `/stickers/${packId}/${stickerId}.gif?v=81`;
 }
 
 export function stickerPng(packId: string, stickerId: string) {
-  return `/stickers/${packId}/${stickerId}.png?v=80`;
+  return `/stickers/${packId}/${stickerId}.png?v=81`;
 }
 
 export function getPack(id: string) {
   return PACKS.find((p) => p.id === id);
 }
 
-export const READY_PACK_IDS = ["set-01", "set-02", "set-03", "set-04", "set-05", "set-06", "set-07", "set-08"];
+export const READY_PACK_IDS = ["set-01", "set-02", "set-03", "set-04", "set-05", "set-06", "set-07", "set-08", "set-18", "set-19"];
 
 export function readyPacks() {
   return PACKS.filter((p) => READY_PACK_IDS.includes(p.id));
