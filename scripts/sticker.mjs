@@ -51,14 +51,15 @@ const diff = (a, b) => {
 };
 
 /** 在源视频里找最佳循环窗口。cut：首尾最像的一段；boomerang：动作最大的一段，正放再倒放。 */
-export function findLoop(video, fps = 24) {
+export function findLoop(video, fps = 24, fixedLen = 0) {
   const fr = grayFrames(video);
   const step = fr.slice(1).map((x, i) => diff(fr[i], x));
   const meanStep = step.reduce((a, b) => a + b, 0) / step.length;
   const motionOf = (s, L) => step.slice(s, s + L).reduce((a, b) => a + b, 0) / L;
 
   let cut = null;
-  for (let L = Math.round(2.5 * fps); L <= Math.round(3.5 * fps); L++)
+  const [lo, hi] = fixedLen ? [fixedLen, fixedLen] : [Math.round(2.5 * fps), Math.round(3.5 * fps)];
+  for (let L = lo; L <= hi; L++)
     for (let s = 0; s + L < fr.length; s++) {
       const mot = motionOf(s, L);
       if (mot < 0.5 * meanStep) continue;
@@ -207,7 +208,7 @@ function main() {
     const [video] = a._;
     if (!video || !a.pack || !a.id) throw new Error("用法: make <video> --pack set-XX --id <id>");
     // 加速时按加速后的时长选片段（源视频 24fps）
-    const { cut, boom, best } = findLoop(video, 24 * Number(a.speed ?? 1));
+    const { cut, boom, best } = findLoop(video, 24 * Number(a.speed ?? 1), a.start ? 0 : Number(a.len ?? 0));
     let plan = best;
     if (a.mode === "cut") plan = cut;
     if (a.mode === "boomerang") plan = boom;
