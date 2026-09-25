@@ -11,7 +11,7 @@ import { fileURLToPath } from "node:url";
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const src = join(root, "public");
 const dest = join(root, ".vercel", "output", "static");
-const READY = ["set-01", "set-02", "set-03", "set-04", "set-05", "set-06", "set-07", "set-08"];
+const READY = ["set-01", "set-02", "set-03", "set-04", "set-05", "set-06", "set-07", "set-08", "set-18", "set-19"];
 
 if (!existsSync(src)) {
   console.log("[copy-public] no public/ directory — skip");
