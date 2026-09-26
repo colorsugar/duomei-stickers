@@ -2,8 +2,14 @@
   "id": "pigcat",
   "name": "小猪和小猫（毛绒）",
   "style": "3d-plush",
-  "summary": "一对毛绒搭档：粉色羊毛毡小猪（定稿，见 concept-pig.png 右边那只）＋ 一只毛绒小猫（待用户在 cat-1/2/3 里选）。针毡羊毛质感、豆豆眼、粉腮红、暖色木质房间、柔光浅景深，不加白描边。",
-  "look": "Needle-felted wool plush toy characters, very soft fuzzy fibers, round chubby bodies, small black bead eyes, rosy pink cheeks, kawaii and gentle. A pink felted piglet with floppy ears and a curly tail. Warm cozy wooden room background, soft warm light, shallow depth of field, square 1:1. No text.",
-  "refs": [],
-  "status": "选猫中"
+  "summary": "一对毛绒搭档：粉色羊毛毡小猪 + 橘色虎斑小猫（左耳别一个西瓜发夹）。针毡羊毛质感、豆豆眼、粉腮红、暖色木质房间、柔光浅景深，不加白描边。",
+  "look": "Needle-felted wool plush toy characters, very soft fuzzy fibers, round chubby bodies, small black bead eyes, rosy pink cheeks, kawaii and gentle. The kitten: fluffy light-orange tabby with soft darker orange stripes, cream belly and paws, round cheeks, a small red-and-green watermelon-slice hair clip on its left ear, fluffy tail. The piglet: pink felted piglet with floppy ears, round snout, curly tail. Warm cozy wooden room background, soft warm light, shallow depth of field, square 1:1. No text.",
+  "refs": [
+    "cat-2.png",
+    "sheet-cat.png",
+    "sheet-pig.png",
+    "sheet-faces.png"
+  ],
+  "status": "已定稿（待用户确认）",
+  "notes": "小猫必须每张都戴左耳西瓜发夹（sheet-faces 里后三格漏了，以 cat-2 / sheet-cat 为准）。"
 }
