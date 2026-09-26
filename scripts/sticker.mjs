@@ -271,7 +271,10 @@ export function loadCharacter(id = "duomei") {
   return { ...c, refPath: `characters/${id}/${c.refs[0]}`, extraRefs: c.refs.slice(1).map((r) => `characters/${id}/${r}`) };
 }
 
-function grokPrompt(s, out, ver, overlay = true, ch = loadCharacter()) {
+function grokPrompt(s, out, ver, overlay = true, ch0 = loadCharacter()) {
+  // 单人表情：用该成员自己的参考图和外形（例如 who: "cat" 只画小猫）
+  const m = s.who && s.who !== "both" ? ch0.members?.[s.who] : null;
+  const ch = m ? { ...ch0, look: m.look, refPath: `characters/${ch0.id}/${m.refs[0]}`, extraRefs: m.refs.slice(1).map((r) => `characters/${ch0.id}/${r}`) } : ch0;
   return [
     `你在做多美表情包的一张：${s.caption}（id: ${s.id}，第 ${ver} 版）。只做这一张，做完只回复视频路径。`,
     `1. 用 image_edit，以 ${ch.refPath} 为参考图${ch.extraRefs?.length ? `（角色细节也参考 ${ch.extraRefs.join("、")}）` : ""}，角色长相必须和参考图一致，出一张 1:1 静帧（动作的起始姿势），提示词：${ch.look} Starting pose for: ${s.action}. ${overlay ? "NO text, NO letters, NO caption anywhere in the image; leave the bottom 20% of the image as empty cream background." : `Bold red Chinese caption "${s.caption}" with thick white outline at the very bottom, not covering the face.`}`,

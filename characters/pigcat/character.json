@@ -3,13 +3,33 @@
   "name": "小猪和小猫（毛绒）",
   "style": "3d-plush",
   "summary": "一对毛绒搭档：粉色羊毛毡小猪 + 橘色虎斑小猫（左耳别一个西瓜发夹）。针毡羊毛质感、豆豆眼、粉腮红、暖色木质房间、柔光浅景深，不加白描边。",
-  "look": "Needle-felted wool plush toy characters, very soft fuzzy fibers, round chubby bodies, small black bead eyes, rosy pink cheeks, kawaii and gentle. The kitten: fluffy light-orange tabby with soft darker orange stripes, cream belly and paws, round cheeks, a small red-and-green watermelon-slice hair clip on its left ear, fluffy tail. The piglet: pink felted piglet with floppy ears, round snout, curly tail. Warm cozy wooden room background, soft warm light, shallow depth of field, square 1:1. No text.",
+  "look": "Needle-felted wool plush toy characters, very soft fuzzy fibers, round chubby bodies, small black bead eyes, rosy pink cheeks, kawaii and gentle. The kitten: fluffy light-orange tabby with soft darker orange stripes, cream belly and paws, round cheeks, a small red-and-green watermelon-slice hair clip on its left ear, fluffy tail. The piglet: pink felted piglet with floppy ears, round snout, curly tail. Warm cozy wooden room background, soft warm light, shallow depth of field, square 1:1. Close-up: both characters fill most of the frame. No text.",
   "refs": [
     "cat-2.png",
+    "solo-cat.png",
+    "solo-pig.png",
     "sheet-cat.png",
     "sheet-pig.png",
     "sheet-faces.png"
   ],
   "status": "已定稿（待用户确认）",
-  "notes": "小猫必须每张都戴左耳西瓜发夹（sheet-faces 里后三格漏了，以 cat-2 / sheet-cat 为准）。"
+  "notes": "小猫必须每张都戴左耳西瓜发夹（sheet-faces 里后三格漏了，以 cat-2 / sheet-cat 为准）。",
+  "members": {
+    "cat": {
+      "name": "小猫",
+      "refs": [
+        "solo-cat.png",
+        "sheet-cat.png"
+      ],
+      "look": "ONLY ONE character: a fluffy light-orange tabby kitten with soft darker orange stripes, cream belly and paws, round cheeks, a small red-and-green watermelon-slice hair clip on its LEFT ear (always visible), fluffy tail. No piglet, no other animals. Needle-felted wool plush toy, very soft fuzzy fibers, round chubby body, small black bead eyes, rosy pink cheeks, kawaii and gentle. Warm cozy wooden room background softly blurred, soft warm light, shallow depth of field, square 1:1. Close-up: the character fills most of the frame. No text."
+    },
+    "pig": {
+      "name": "小猪",
+      "refs": [
+        "solo-pig.png",
+        "sheet-pig.png"
+      ],
+      "look": "ONLY ONE character: a pink felted piglet with floppy ears, round snout, curly tail. No kitten, no other animals. Needle-felted wool plush toy, very soft fuzzy fibers, round chubby body, small black bead eyes, rosy pink cheeks, kawaii and gentle. Warm cozy wooden room background softly blurred, soft warm light, shallow depth of field, square 1:1. Close-up: the character fills most of the frame. No text."
+    }
+  }
 }
