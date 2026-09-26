@@ -10,7 +10,7 @@ import { execFileSync, spawn } from "node:child_process";
 import { copyFileSync, existsSync, mkdirSync, openSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { createServer } from "node:http";
 import { extname, join, normalize } from "node:path";
-import { CANDIDATES, ROOT, STICKERS, publish, qaGif } from "./sticker.mjs";
+import { CANDIDATES, ROOT, STICKERS, packIsCalm, publish, qaGif } from "./sticker.mjs";
 
 const JOBS = join(ROOT, ".sticker-jobs");
 const PORT = Number(process.env.PORT ?? 5178);
@@ -43,13 +43,14 @@ function stickerNames(pack) {
 }
 
 const qaCache = new Map();
-function qaCached(file) {
-  const key = `${file}:${statSync(file).mtimeMs}`;
-  if (!qaCache.has(key)) qaCache.set(key, qaGif(file));
+function qaCached(file, calm = false) {
+  const key = `${file}:${statSync(file).mtimeMs}:${calm}`;
+  if (!qaCache.has(key)) qaCache.set(key, qaGif(file, { calm }));
   return qaCache.get(key);
 }
 
 function state(pack) {
+  const calm = packIsCalm(pack);
   return stickerNames(pack).map(({ id, name }) => {
     const cur = join(STICKERS, pack, `${id}.gif`);
     const dir = join(CANDIDATES, pack, id);
@@ -58,12 +59,12 @@ function state(pack) {
           const file = join(dir, f);
           const metaFile = file.replace(/\.gif$/, ".json");
           const meta = existsSync(metaFile) ? JSON.parse(readFileSync(metaFile, "utf8")) : {};
-          const q = qaCached(file);
+          const q = qaCached(file, calm);
           return { cand: f.slice(0, -4), url: `/files/.sticker-candidates/${pack}/${id}/${f}?t=${statSync(file).mtimeMs}`, ok: q.ok, problems: q.problems, m: q.metrics, plan: meta.plan };
         })
       : [];
     const current = existsSync(cur)
-      ? { url: `/files/public/stickers/${pack}/${id}.gif?t=${statSync(cur).mtimeMs}`, ...(({ ok, problems, metrics }) => ({ ok, problems, m: metrics }))(qaCached(cur)) }
+      ? { url: `/files/public/stickers/${pack}/${id}.gif?t=${statSync(cur).mtimeMs}`, ...(({ ok, problems, metrics }) => ({ ok, problems, m: metrics }))(qaCached(cur, calm)) }
       : null;
     return { id, name, current, cands };
   });

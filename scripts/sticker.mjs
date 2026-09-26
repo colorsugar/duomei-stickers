@@ -136,7 +136,8 @@ function encode(video, out, { mode, start, len }, speed = 1, caption = "") {
 }
 
 /** 自动质检。返回 { ok, problems, metrics }。 */
-export function qaGif(gif) {
+/** opts.calm：软萌/毛绒类，小动作是正常的，放宽「几乎不动」和「停住」 */
+export function qaGif(gif, opts = {}) {
   const probe = JSON.parse(run("ffprobe", ["-v", "error", "-count_frames", "-show_entries",
     "stream=width,height,nb_read_frames,r_frame_rate:format=duration", "-of", "json", gif]).toString());
   const st = probe.streams[0];
@@ -160,9 +161,9 @@ export function qaGif(gif) {
   if (bytes > SPEC.maxBytes) p.push(`体积 ${m.kb}KB 超 500KB`);
   if (fps < SPEC.minFps) p.push(`帧率 ${m.fps} 太低，会卡`);
   if (sec < SPEC.minSec || sec > SPEC.maxSec) p.push(`时长 ${m.sec}s，要 2–4.5s`);
-  if (motion < SPEC.minMotion) p.push(`几乎不动（动作量 ${m.motion}），重生成视频`);
+  if (motion < (opts.calm ? 0.4 : SPEC.minMotion)) p.push(`几乎不动（动作量 ${m.motion}），重生成视频`);
   if (seamRatio > SPEC.maxSeamRatio) p.push(`循环接缝跳 ${m.seamRatio}x，改用 boomerang 或换片段`);
-  if (frozen > SPEC.maxFrozenShare) p.push(`停住帧占 ${Math.round(frozen * 100)}%，动作不连贯`);
+  if (frozen > (opts.calm ? 0.5 : SPEC.maxFrozenShare)) p.push(`停住帧占 ${Math.round(frozen * 100)}%，动作不连贯`);
   if (jerks > SPEC.maxJerkShare) p.push(`突跳帧占 ${Math.round(jerks * 100)}%，动作不连贯`);
   return { ok: p.length === 0, problems: p, metrics: m };
 }
@@ -306,7 +307,7 @@ export function makeSticker(video, a) {
   mkdirSync(dir, { recursive: true });
   const out = join(dir, `${a.cand ?? a.id}.gif`);
   const enc = encode(video, out, plan, speed, a.caption ?? "");
-  const q = qaGif(out);
+  const q = qaGif(out, { calm: a.calm });
   const info = { id: a.id, cand: a.cand, plan: { mode: plan.mode, start: plan.start, len: plan.len, speed }, source: video, ...enc, ...q.metrics };
   writeFileSync(out.replace(/\.gif$/, ".json"), JSON.stringify({ ...info, ok: q.ok, problems: q.problems }, null, 2));
   console.log(`${q.ok ? "✅" : "❌"} ${a.id}${a.cand ? "-" + a.cand : ""} ${q.metrics.kb}KB ${q.metrics.fps}fps ${q.metrics.sec}s${q.ok ? "" : "  → " + q.problems.join("；")}`);
@@ -322,6 +323,14 @@ function stickerNames(pack) {
   const block = src.slice(src.indexOf(`id: "${pack}"`));
   const end = block.indexOf("],");
   return Object.fromEntries([...block.slice(0, end).matchAll(/\{ id: "([^"]+)", name: "([^"]+)"/g)].map((m) => [m[1], m[2]]));
+}
+
+export function packIsCalm(pack) {
+  const f = join(ROOT, "briefs", `${pack}.json`);
+  if (!existsSync(f)) return false;
+  const c = JSON.parse(readFileSync(f, "utf8")).character;
+  const cf = join(ROOT, "characters", c ?? "", "character.json");
+  return !!c && existsSync(cf) && JSON.parse(readFileSync(cf, "utf8")).style === "3d-plush";
 }
 
 export function publish(pack) {
@@ -427,8 +436,9 @@ async function main() {
       child.stderr.on("data", (d) => (log += d));
       child.on("close", () => {
         if (!existsSync(out)) { console.log(`❌ ${s.id}-${ver} 没生成出视频：${log.slice(-300)}`); return resolve(); }
-        const overlay = brief.captionOverlay !== false; // true = 视频里不写字（字后期加，或 captions:false 时不加）
-        try { makeSticker(out, { pack, id: s.id, cand: ver, ...(s.hit ? { mode: "cut", speed: "1.3" } : { mode: "peak" }), ...(overlay && brief.captions !== false ? { caption: s.caption } : {}) }); }
+        const overlay = brief.captionOverlay !== false;
+        const calm = character.style === "3d-plush"; // true = 视频里不写字（字后期加，或 captions:false 时不加）
+        try { makeSticker(out, { pack, id: s.id, cand: ver, ...(s.hit ? { mode: "cut", speed: "1.3" } : { mode: "peak" }), ...(overlay && brief.captions !== false ? { caption: s.caption } : {}), calm }); }
         catch (e) { console.log(`❌ ${s.id}-${ver} 做 GIF 失败：${e.message}`); }
         resolve();
       });
@@ -488,7 +498,7 @@ async function main() {
 
   if (cmd === "publish") {
     const [pack] = a._;
-    const bad = packIds(pack).map((id) => [id, qaGif(join(STICKERS, pack, `${id}.gif`))]).filter(([, q]) => !q.ok);
+    const bad = packIds(pack).map((id) => [id, qaGif(join(STICKERS, pack, `${id}.gif`), { calm: packIsCalm(pack) })]).filter(([, q]) => !q.ok);
     if (bad.length && !a.force) {
       for (const [id, q] of bad) console.log(`❌ ${id}: ${q.problems.join("；")}`);
       console.log("有不合格的，已拒绝上架。确认要上用 --force yes。");
