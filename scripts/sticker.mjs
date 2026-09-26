@@ -382,7 +382,7 @@ async function main() {
     const list = brief.stickers.filter((s) => !ids.length || ids.includes(s.id));
     const versions = Number(a.versions ?? 2);
     const jobs = list.flatMap((s) => Array.from({ length: versions }, (_, i) => ({ s, ver: String(i + 1 + Number(a.from ?? 0)) })));
-    const parallel = Number(a.parallel ?? 3);
+    const parallel = Number(a.parallel ?? Math.min(16, jobs.length)); // 默认全部并行，总时间≈单张
     const runOne = ({ s, ver }) => new Promise((resolve) => {
       const out = join(ROOT, ".sticker-sources", pack, `${s.id}-${ver}.mp4`);
       mkdirSync(dirname(out), { recursive: true });
