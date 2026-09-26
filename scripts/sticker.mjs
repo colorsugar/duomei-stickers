@@ -6,6 +6,9 @@
  *   node scripts/sticker.mjs make <video.mp4> --pack set-08 --id angry [--mode auto|cut|boomerang] [--start N --len N] [--speed 1.5]
  *   node scripts/sticker.mjs fetch <pack> <grok回复.txt> [--hits punch,kick]   # 下载 Grok 的视频并做成候选
  *   node scripts/sticker.mjs gen <pack> [id ...] [--versions 2]   # 本机 grok 按 briefs/<pack>.json 生成视频→候选
+ *   node scripts/sticker.mjs list <pack>                     # 每张的线上状态和候选
+ *   node scripts/sticker.mjs pick <pack> <id> <候选号>        # 选用候选（不上架）
+ *   node scripts/sticker.mjs discard <pack> <id>             # 清掉候选
  *   node scripts/sticker.mjs qa <pack> [id ...]        # 不合格 exit 1，并生成逐帧对照图
  *   node scripts/sticker.mjs publish <pack>            # 更新 manifest / sizes / index，刷新 ?v= 缓存版本
  *
@@ -309,6 +312,37 @@ async function main() {
     const queue = [...jobs];
     await Promise.all(Array.from({ length: parallel }, async () => { while (queue.length) await runOne(queue.shift()); }));
     console.log("\n全部完成。打开工作台挑选：node scripts/sticker-studio.mjs");
+    return;
+  }
+
+  if (cmd === "list") {
+    // 每张：线上是否通过 + 有哪些候选及其检查结果（给 AI 看的纯文本）
+    const [pack] = a._;
+    for (const id of Object.keys(stickerNames(pack))) {
+      const cur = join(STICKERS, pack, `${id}.gif`);
+      const q = existsSync(cur) ? qaGif(cur) : null;
+      const dir = join(CANDIDATES, pack, id);
+      const cands = existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith(".gif")).sort() : [];
+      console.log(`${id.padEnd(10)} 线上:${q ? (q.ok ? "✅" : "❌") + q.metrics.kb + "KB" : "无"}  候选:${cands.length ? cands.map((f) => { const r = qaGif(join(dir, f)); return f.slice(0, -4) + (r.ok ? "✅" : "❌"); }).join(" ") : "-"}`);
+    }
+    return;
+  }
+
+  if (cmd === "pick") {
+    // 用候选替换正式文件（还没上架；上架要用户在工作台点，或用户明确同意后 publish）
+    const [pack, id, cand] = a._;
+    const from = join(CANDIDATES, pack, id, `${cand}.gif`);
+    if (!existsSync(from)) throw new Error(`没有这个候选：${from}`);
+    run("cp", [from, join(STICKERS, pack, `${id}.gif`)]);
+    run("ffmpeg", ["-v", "error", "-y", "-i", from, "-frames:v", "1", join(STICKERS, pack, `${id}.png`)]);
+    console.log(`已选用 ${pack}/${id} 候选 ${cand}（未上架）`);
+    return;
+  }
+
+  if (cmd === "discard") {
+    const [pack, id] = a._;
+    rmSync(join(CANDIDATES, pack, id), { recursive: true, force: true });
+    console.log(`已清掉 ${pack}/${id} 的候选`);
     return;
   }
 

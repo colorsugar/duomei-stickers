@@ -152,8 +152,8 @@ async function load(){
     if(s.current)tiles.append(tile("线上现在",s.current,true));
     for(const c of s.cands){const d=tile("候选 "+c.cand,c);const b=document.createElement("button");b.textContent="用这个";
       b.onclick=async()=>{b.disabled=true;await j("/api/pick",{method:"POST",body:JSON.stringify({pack,id:s.id,cand:c.cand})});status("已选用 "+s.name+" 候选 "+c.cand+"（还没上架）");load()};d.append(b);tiles.append(d)}
-    if(s.cands.length){const b=document.createElement("button");b.textContent="清掉候选";b.style.alignSelf="center";
-      b.onclick=async()=>{await j("/api/discard",{method:"POST",body:JSON.stringify({pack,id:s.id})});load()};tiles.append(b)}
+    if(s.cands.length){const b=document.createElement("button");b.textContent="清掉候选";b.style.marginLeft="10px";b.style.fontSize="12px";
+      b.onclick=async()=>{await j("/api/discard",{method:"POST",body:JSON.stringify({pack,id:s.id})});status("已清掉 "+s.name+" 的候选");load()};row.querySelector("h2").append(b)}
     else tiles.insertAdjacentHTML("beforeend",'<span class="empty">没有候选</span>');
     $("#list").append(row)}
 }

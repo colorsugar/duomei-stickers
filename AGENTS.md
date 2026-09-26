@@ -1,5 +1,8 @@
 # App Builder Workspace
 
+> **做表情包 / 多美贴纸 / sticker GIF？** 先读 [`STICKER-STUDIO.md`](STICKER-STUDIO.md)：本机工作台流程、命令、分工（AI 生成候选，用户在 http://localhost:5178 挑选和上架）。
+
+
 **The single source of truth** for the App Builder sandbox contract. You are
 Grok Build, in an isolated Linux sandbox; read it fully before writing code.
 Prompts are often short and casual — read intent generously and ship a
