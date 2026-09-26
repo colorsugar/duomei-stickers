@@ -7,14 +7,16 @@
  * 候选来自 .sticker-candidates/<pack>/<id>/<n>.gif（sticker.mjs make --cand / fetch / gen 生成）。
  */
 import { execFileSync, spawn } from "node:child_process";
-import { copyFileSync, existsSync, mkdirSync, openSync, readFileSync, readdirSync, rmSync, statSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, openSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { createServer } from "node:http";
 import { extname, join, normalize } from "node:path";
 import { CANDIDATES, ROOT, STICKERS, publish, qaGif } from "./sticker.mjs";
 
 const JOBS = join(ROOT, ".sticker-jobs");
 const PORT = Number(process.env.PORT ?? 5178);
-const MIME = { ".gif": "image/gif", ".png": "image/png", ".json": "application/json", ".html": "text/html; charset=utf-8" };
+const CHARS = join(ROOT, "characters");
+const MIME = {
+  ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp", ".mp4": "video/mp4", ".gif": "image/gif", ".png": "image/png", ".json": "application/json", ".html": "text/html; charset=utf-8" };
 
 function readBrief(pack) {
   const f = join(ROOT, "briefs", `${pack}.json`);
@@ -93,6 +95,22 @@ createServer(async (req, res) => {
       if (!file.startsWith(ROOT) || !existsSync(file)) return send(res, 404, "not found", "text/plain");
       return send(res, 200, readFileSync(file), MIME[extname(file)] ?? "application/octet-stream");
     }
+    if (url.pathname === "/api/characters") {
+      const list = existsSync(CHARS) ? readdirSync(CHARS).filter((d) => existsSync(join(CHARS, d, "character.json"))) : [];
+      return send(res, 200, list.map((d) => {
+        const c = JSON.parse(readFileSync(join(CHARS, d, "character.json"), "utf8"));
+        const images = readdirSync(join(CHARS, d)).filter((f) => /\.(png|jpe?g|webp)$/i.test(f)).sort();
+        return { ...c, dir: d, images: images.map((f) => ({ file: f, url: `/files/characters/${d}/${encodeURIComponent(f)}`, ref: (c.refs ?? []).includes(f) })) };
+      }).sort((a, b) => (a.status === "未采用") - (b.status === "未采用")));
+    }
+    if (url.pathname === "/api/ref" && req.method === "POST") {
+      const { dir, file, on } = await body(req);
+      const f = join(CHARS, dir, "character.json");
+      const c = JSON.parse(readFileSync(f, "utf8"));
+      c.refs = [...new Set([...(c.refs ?? []).filter((x) => x !== file), ...(on ? [file] : [])])];
+      writeFileSync(f, JSON.stringify(c, null, 2) + "\n");
+      return send(res, 200, { ok: true });
+    }
     if (url.pathname === "/api/new" && req.method === "POST") {
       const { theme, count } = await body(req);
       if (!theme) return send(res, 400, { error: "写一个主题" });
@@ -157,6 +175,7 @@ main{padding:16px 20px;display:grid;gap:14px}
 .tile button{width:100%;margin-top:6px}.empty{color:var(--muted);align-self:center}
 </style></head><body>
 <header><h1>多美工作台</h1>
+<button id="tabS" class="primary" style="padding:4px 10px">表情</button><button id="tabC" style="padding:4px 10px">角色</button>
 <select id="pack"></select>
 <label><input type="checkbox" id="only"> 只看有候选的</label>
 <button id="reload">刷新</button>
@@ -168,6 +187,7 @@ main{padding:16px 20px;display:grid;gap:14px}
 <button id="go">开始做</button></section>
 <pre id="job" style="margin:0;padding:6px 20px;color:var(--muted);font-size:12px;white-space:pre-wrap"></pre>
 <main id="list"></main>
+<main id="chars" style="display:none"></main>
 <script>
 const $=s=>document.querySelector(s);let pack;
 const status=t=>$("#status").textContent=t||"";
@@ -190,6 +210,18 @@ async function load(){
     else tiles.insertAdjacentHTML("beforeend",'<span class="empty">没有候选</span>');
     $("#list").append(row)}
 }
+async function loadChars(){const cs=await j("/api/characters");$("#chars").innerHTML="";
+  for(const c of cs){const row=document.createElement("section");row.className="row";
+    row.innerHTML='<h2>'+c.name+'<small>'+c.dir+' · '+(c.style||"")+(c.status?' · '+c.status:'')+'</small></h2><div class="tag" style="margin:-4px 0 10px">'+(c.summary||"")+'</div><div class="tiles"></div>';
+    const tiles=row.querySelector(".tiles");
+    for(const im of c.images){const d=document.createElement("div");d.className="tile";if(im.ref)d.style.borderColor="var(--ok)";
+      d.innerHTML='<img loading="lazy" src="'+im.url+'" style="object-fit:cover"><div class="tag">'+im.file+(im.ref?' · <b class="ok">参考图</b>':'')+'</div>';
+      const b=document.createElement("button");b.textContent=im.ref?"取消参考图":"设为参考图";
+      b.onclick=async()=>{await j("/api/ref",{method:"POST",body:JSON.stringify({dir:c.dir,file:im.file,on:!im.ref})});loadChars()};d.append(b);tiles.append(d)}
+    $("#chars").append(row)}}
+const tab=(t)=>{const c=t==="C";$("#chars").style.display=c?"":"none";$("#list").style.display=c?"none":"";$("#newbar").style.display=c?"none":"flex";
+  $("#tabC").className=c?"primary":"";$("#tabS").className=c?"":"primary";if(c)loadChars()};
+$("#tabS").onclick=()=>tab("S");$("#tabC").onclick=()=>tab("C");
 $("#pack").onchange=e=>{pack=e.target.value;try{localStorage.pack=pack}catch{}load()};
 $("#only").onchange=load;$("#reload").onclick=load;
 $("#publish").onclick=async()=>{if(!confirm("把 "+pack+" 当前选用的图推到 duomei.vercel.app？"))return;

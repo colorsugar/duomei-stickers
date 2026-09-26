@@ -261,10 +261,19 @@ const STYLE_FACE = "Cute and restrained chibi expression animation at a normal n
 const LOCK = "Locked camera, no zoom, no pan, no tilt. Character stays full-body in frame. Background still. One complete action within about 3 seconds, ending close to the starting pose. Same face, hair and outfit throughout. No extra limbs, no text generated inside the video.";
 
 /** 给 grok 命令行的单张任务：先 image_edit 出静帧，再 image_to_video，mp4 存到指定路径。 */
-function grokPrompt(s, out, ver, overlay = true) {
+/** 角色设定：characters/<id>/character.json（look = 外形提示词，refs = 参考图）。缺省用多美。 */
+export function loadCharacter(id = "duomei") {
+  const f = join(ROOT, "characters", id, "character.json");
+  if (!existsSync(f)) return { id: "duomei", look: LOOK, refPath: "public/refs/watermelon-white.jpg" };
+  const c = JSON.parse(readFileSync(f, "utf8"));
+  if (!c.refs?.length) throw new Error(`角色 ${id} 还没有参考图：在工作台「角色」页点「设为参考图」`);
+  return { ...c, refPath: `characters/${id}/${c.refs[0]}`, extraRefs: c.refs.slice(1).map((r) => `characters/${id}/${r}`) };
+}
+
+function grokPrompt(s, out, ver, overlay = true, ch = loadCharacter()) {
   return [
     `你在做多美表情包的一张：${s.caption}（id: ${s.id}，第 ${ver} 版）。只做这一张，做完只回复视频路径。`,
-    `1. 用 image_edit，以 public/refs/watermelon-white.jpg 为参考图，出一张 1:1 静帧（动作的起始姿势），提示词：${LOOK} Starting pose for: ${s.action}. ${overlay ? "NO text, NO letters, NO caption anywhere in the image; leave the bottom 20% of the image as empty cream background." : `Bold red Chinese caption "${s.caption}" with thick white outline at the very bottom, not covering the face.`}`,
+    `1. 用 image_edit，以 ${ch.refPath} 为参考图${ch.extraRefs?.length ? `（角色细节也参考 ${ch.extraRefs.join("、")}）` : ""}，角色长相必须和参考图一致，出一张 1:1 静帧（动作的起始姿势），提示词：${ch.look} Starting pose for: ${s.action}. ${overlay ? "NO text, NO letters, NO caption anywhere in the image; leave the bottom 20% of the image as empty cream background." : `Bold red Chinese caption "${s.caption}" with thick white outline at the very bottom, not covering the face.`}`,
     `2. 用 image_to_video，以这张静帧为首帧，生成 6 秒 1:1 视频，提示词：${s.action}. ${s.hit ? STYLE_HIT : STYLE_FACE} ${LOCK}${overlay ? " Keep the bottom 20% empty, no text." : ""}${ver !== "1" ? " Make this take noticeably different in timing and details from other takes." : ""}`,
     `3. 把视频保存为 ${out}（用 run_terminal_command 复制或移动过去，确认文件存在）。`,
     "不要改仓库里的任何其他文件，不要 git 提交或推送。",
@@ -404,6 +413,7 @@ async function main() {
     const [pack, ...ids] = a._;
     const brief = JSON.parse(readFileSync(join(ROOT, "briefs", `${pack}.json`), "utf8"));
     const list = brief.stickers.filter((s) => !ids.length || ids.includes(s.id));
+    const character = loadCharacter(brief.character);
     const versions = Number(a.versions ?? 2);
     const jobs = list.flatMap((s) => Array.from({ length: versions }, (_, i) => ({ s, ver: String(i + 1 + Number(a.from ?? 0)) })));
     const parallel = Number(a.parallel ?? Math.min(16, jobs.length)); // 默认全部并行，总时间≈单张
@@ -411,7 +421,7 @@ async function main() {
       const out = join(ROOT, ".sticker-sources", pack, `${s.id}-${ver}.mp4`);
       mkdirSync(dirname(out), { recursive: true });
       console.log(`🎬 生成中 ${s.id}-${ver} …`);
-      const child = spawn("grok", ["-p", grokPrompt(s, out, ver, brief.captionOverlay !== false), "--always-approve", "--cwd", ROOT], { stdio: ["ignore", "pipe", "pipe"] });
+      const child = spawn("grok", ["-p", grokPrompt(s, out, ver, brief.captionOverlay !== false, character), "--always-approve", "--cwd", ROOT], { stdio: ["ignore", "pipe", "pipe"] });
       let log = "";
       child.stdout.on("data", (d) => (log += d));
       child.stderr.on("data", (d) => (log += d));
