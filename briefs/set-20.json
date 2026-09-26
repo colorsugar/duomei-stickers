@@ -4,55 +4,16 @@
   "name": "上班摸鱼",
   "nameEn": "Slacking at Work",
   "slug": "work-slack",
-  "tagline": "摸鱼中 老板来了 我先溜了",
+  "tagline": "摸鱼中 老板来了 下班！",
+  "note": "每张一个把字面意思画出来的视觉梗；视频里不写字，caption 后期统一加；截取对准笑点并定格。",
   "stickers": [
-    {
-      "id": "slack",
-      "caption": "摸鱼中",
-      "hit": false,
-      "action": "Starts seated in an office chair, one hand on the keyboard and the other hiding a phone under the desk. She side-eyes, thumb-scrolls the phone with a small grin and one sweat drop, then looks back at the monitor and settles into the same seated pose."
-    },
-    {
-      "id": "boss",
-      "caption": "老板来了",
-      "hit": false,
-      "action": "Starts standing at the desk with a phone in both hands, feet planted. She flinches, stuffs the phone behind her back, fake-types with a stiff smile and one sweat drop, then brings the phone forward and returns to the same standing pose."
-    },
-    {
-      "id": "daze",
-      "caption": "带薪发呆",
-      "hit": false,
-      "action": "Starts lying flat on her back on the office floor, arms loose, eyes unfocused. A tiny star blinks once above her; she sighs, the star fades, and she stays lying in the same pose."
-    },
-    {
-      "id": "clock",
-      "caption": "到点了！",
-      "hit": false,
-      "action": "Starts standing beside the desk, watching a small clock. She jumps up with both feet and arms thrown high, a few tiny stars pop, she lands, and she settles back into the same standing pose grinning."
-    },
-    {
-      "id": "signal",
-      "caption": "信号不好",
-      "hit": false,
-      "action": "Starts standing facing forward, phone held at her chest. She turns her back to the camera, lifts the phone as if searching for signal, peeks over her shoulder with a sly smile and one sweat drop, then turns to face front again."
-    },
-    {
-      "id": "buddy",
-      "caption": "一起摸鱼",
-      "hit": false,
-      "action": "Starts seated facing the pink piglet on the desk. They quietly fist-bump, duck together behind the monitor to peek at a phone, a tiny star pops, then both rise back to the same face-to-face seated pose."
-    },
-    {
-      "id": "slip",
-      "caption": "我先溜了",
-      "hit": false,
-      "action": "Starts standing by the desk, glancing left and right. She tiptoes, then sprints so her whole body leaves the frame completely; after a short empty beat she slides back in and stops in the same standing pose, still looking around."
-    },
-    {
-      "id": "wake",
-      "caption": "别睡了",
-      "hit": true,
-      "action": "Starts standing over the pink piglet asleep on the keyboard, one palm raised. She pats the top of its head rapidly four or five times, light and cute, with a small yellow tick on each pat; the piglet squishes and blinks, then drops back to sleep as her hand returns to the raised start."
-    }
+    { "id": "slack", "caption": "摸鱼中", "hit": false, "action": "Sitting at an office desk, she reaches her hand straight into the computer monitor and pulls out a wriggling little fish, then hugs the fish happily against her cheek with a satisfied smile while the fish flops." },
+    { "id": "boss", "caption": "老板来了", "hit": false, "action": "Standing by her desk, she suddenly notices something off-screen, jolts with shock, then instantly freezes perfectly stiff and holds a small potted plant up in front of her face to hide, one eye peeking out beside the leaves with a sweat drop." },
+    { "id": "daze", "caption": "带薪发呆", "hit": false, "action": "Sitting at her desk with a blank dazed face, a small cute white ghost-like copy of herself floats up out of the top of her head and drifts lazily around, then gets sucked back into her head with a little pop." },
+    { "id": "clock", "caption": "下班！", "hit": false, "action": "Standing beside a wall clock; the clock hand snaps to six, she grabs her watermelon bag and blasts straight up out of the top of the frame like a little rocket, leaving a puff of cloud and a few sparkles behind." },
+    { "id": "roger", "caption": "收到！", "hit": false, "action": "Standing straight, she snaps into a crisp energetic salute with a big confident grin, a small sparkle pings next to her hand, then she gives a tiny firm nod." },
+    { "id": "meeting", "caption": "开会中…", "hit": false, "action": "Sitting in a meeting chair, her head slowly droops as she dozes off, bobbing lower and lower, then she jolts awake with wide eyes and sits up straight pretending to pay attention." },
+    { "id": "slip", "caption": "先溜了", "hit": false, "action": "Standing by the desk, she glances left and right, then crouches onto a small skateboard and glides smoothly and quickly sideways completely out of the frame, leaving a tiny dust puff." },
+    { "id": "ot", "caption": "加班中…", "hit": false, "action": "Sitting at the computer late at night with tired dark eye bags and messy hair, typing like a zombie, her head slowly sinks and plops face-down onto the keyboard, a tiny soul wisp sighs out." }
   ]
 }

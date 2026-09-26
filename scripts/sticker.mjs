@@ -45,6 +45,9 @@ const LADDER = [
   [20, 192, 40], [20, 128, 60], [16, 128, 60], [16, 96, 100], [16, 64, 140], [14, 64, 160],
 ];
 
+// 加字需要带 drawtext 的 ffmpeg（brew install ffmpeg-full）
+const FFMPEG = existsSync("/opt/homebrew/opt/ffmpeg-full/bin/ffmpeg") ? "/opt/homebrew/opt/ffmpeg-full/bin/ffmpeg" : "ffmpeg";
+const CAPTION_FONT = "/System/Library/Fonts/STHeiti Medium.ttc";
 const run = (cmd, args, opts = {}) => execFileSync(cmd, args, { maxBuffer: 1 << 30, ...opts });
 
 function grayFrames(file, W = 64) {
@@ -83,15 +86,31 @@ export function findLoop(video, fps = 24, fixedLen = 0) {
       if (!boom || mot > boom.mot) boom = { mode: "boomerang", start: s, len: N, mot };
     }
 
-  return { cut, boom, best: cut && cut.ratio <= 1.0 ? cut : boom };
+  // peak：动作最精彩的一段（约 2.5 秒），结尾定格，不追求首尾相接
+  let peak = null;
+  const P = Math.round((fixedLen || 2.5 * fps));
+  for (let s = 0; s + P < fr.length; s++) {
+    const mot = motionOf(s, P);
+    if (!peak || mot > peak.mot) peak = { mode: "peak", start: s, len: P, mot };
+  }
+
+  return { cut, boom, peak, best: cut && cut.ratio <= 1.0 ? cut : boom };
 }
 
-function encode(video, out, { mode, start, len }, speed = 1) {
+function encode(video, out, { mode, start, len }, speed = 1, caption = "") {
   const tmp = mkdtempSync(join(tmpdir(), "sticker-"));
   try {
     // 先降帧率再拼循环：否则 boomerang 接缝处的帧会被丢掉
     const loopGraph = (fps) => {
-      const trim = `trim=start_frame=${start}:end_frame=${start + len},setpts=(PTS-STARTPTS)/${speed},fps=${fps},scale=${SPEC.size}:${SPEC.size}:flags=lanczos`;
+      const hold = mode === "peak" ? ",tpad=stop_mode=clone:stop_duration=0.6" : "";
+      // 两层 drawtext：先粗白边，再同色细描边加粗笔画，接近「粗体红字白描边」
+      const t = caption.replace(/'/g, "");
+      const fs = t.length > 4 ? 38 : 46;
+      const pos = `x=(w-text_w)/2:y=h-text_h-10:fontfile='${CAPTION_FONT}':text='${t}':fontsize=${fs}`;
+      const text = caption
+        ? `,drawtext=${pos}:fontcolor=white:borderw=9:bordercolor=white,drawtext=${pos}:fontcolor=0xD9362B:borderw=2:bordercolor=0xD9362B`
+        : "";
+      const trim = `trim=start_frame=${start}:end_frame=${start + len},setpts=(PTS-STARTPTS)/${speed},fps=${fps},scale=${SPEC.size}:${SPEC.size}:flags=lanczos${hold}${text}`;
       // 不做首尾淡入淡出：会出重影。接不上就用 boomerang。
       return mode === "boomerang"
         ? `[0:v]${trim},split[f][r];[r]reverse,trim=start_frame=1,setpts=PTS-STARTPTS[rv0];[rv0]reverse,trim=start_frame=1,reverse,setpts=PTS-STARTPTS[rv];[f][rv]concat=n=2:v=1[o]`
@@ -101,7 +120,7 @@ function encode(video, out, { mode, start, len }, speed = 1) {
     for (const [fps, colors, lossy] of LADDER) {
       used = { fps, colors, lossy };
       const loop = join(tmp, `loop${fps}.mkv`);
-      if (!existsSync(loop)) run("ffmpeg", ["-v", "error", "-y", "-i", video, "-filter_complex", loopGraph(fps), "-map", "[o]", "-c:v", "ffv1", "-r", String(fps), loop]);
+      if (!existsSync(loop)) run(FFMPEG, ["-v", "error", "-y", "-i", video, "-filter_complex", loopGraph(fps), "-map", "[o]", "-c:v", "ffv1", "-r", String(fps), loop]);
       run("ffmpeg", ["-v", "error", "-y", "-i", loop, "-vf",
         `hqdn3d=4:3:6:6,split[a][b];[a]palettegen=max_colors=${colors}:stats_mode=diff[p];[b][p]paletteuse=dither=none:diff_mode=rectangle`,
         "-loop", "0", out]);
@@ -128,8 +147,11 @@ export function qaGif(gif) {
   const motion = step.reduce((s, x) => s + x, 0) / step.length;
   // 接缝和它附近几帧的正常变化比：快动作中间接上不算跳
   const n = step.length, local = Math.max(motion, step[0], step[1] ?? 0, step[n - 1], step[n - 2] ?? 0);
-  const seamRatio = diff(fr[fr.length - 1], fr[0]) / local;
-  const frozen = step.filter((x) => x < 0.4).length / step.length;
+  let tail = 0;
+  for (let i = step.length - 1; i >= 0 && step[i] < 0.4; i--) tail++;
+  const held = tail >= 3; // 结尾定格 = 故意的「说完梗停一下再重来」，不算接缝跳
+  const seamRatio = held ? 0 : diff(fr[fr.length - 1], fr[0]) / local;
+  const frozen = (step.filter((x) => x < 0.4).length - (held ? tail : 0)) / step.length;
   const jerks = step.filter((x) => x > 2.5 * motion).length / step.length;
   const m = { w: st.width, h: st.height, fps: +fps.toFixed(1), sec: +sec.toFixed(2), kb: Math.round(bytes / 1024),
     motion: +motion.toFixed(1), seamRatio: +seamRatio.toFixed(2), frozen: +frozen.toFixed(2), jerks: +jerks.toFixed(2) };
@@ -161,10 +183,11 @@ function contactSheet(pack, ids, out) {
 const PLAN_RULES = `你是国内热门 Q 版表情包的策划。主角永远是「多美」：爱吃西瓜的元气小女孩（西瓜原皮：棕色短发+西瓜髻、白T、樱桃红西瓜籽背带短裤、西瓜挎包、红鞋），常用配角是一只粉色小猪。
 为主题策划一套表情包，要求：
 - 每张是年轻人在微信聊天里真会发的一句话（caption，2–6 个汉字，可带！或…），优先用大家都懂的说法和梗，不要生造没人说的句子。
-- 每张一个动作，3 秒内看懂，意思和 caption 一眼对上；一套里动作互不相同（站、坐、躺、跳、转身、和小猪互动都要有）。
+- 每张必须有一个「画出来就好笑」的视觉梗，最好把字面意思画出来（谐音/字面梗）：例如「摸鱼」= 伸手从电脑屏幕里摸出一条鱼；「老板来了」= 瞬间举起一盆绿植把脸挡住；「带薪发呆」= 小灵魂从头顶飘出来；「下班」= 像火箭一样冲出画面。禁止平淡写实（坐着看手机、站着冒汗这种不合格）。
+- 每张一个动作，3 秒内看懂，意思和 caption 一眼对上；笑点那一下要清楚，动作结束停在笑点上；一套里动作互不相同（站、坐、躺、跳、转身、和小猪互动都要有）。
 - 打击类（打、抽、踢、捶、踩、拍）hit=true：快、连打、可爱不暴力；其余 hit=false：可爱适度、正常节奏，特效小（小乌云、汗滴、星星、青筋），不许把脸变形成别的东西、不许大爆炸大团烟雾。
 - 离场类动作（踢飞、滚走、跑掉）写清楚「整个出画面」。
-- action 用英文写：起始姿势 → 动作 → 结束接近起始姿势，一两句，给图生视频模型看。
+- action 用英文写：起始姿势 → 动作 → 停在笑点，一两句，给图生视频模型看。不要在 action 里要求画面出现文字（字后期统一加）。
 - id 用简短英文小写（字母数字），互不重复。`;
 
 const PLAN_SCHEMA = {
@@ -238,11 +261,11 @@ const STYLE_FACE = "Cute and restrained chibi expression animation at a normal n
 const LOCK = "Locked camera, no zoom, no pan, no tilt. Character stays full-body in frame. Background still. One complete action within about 3 seconds, ending close to the starting pose. Same face, hair and outfit throughout. No extra limbs, no text generated inside the video.";
 
 /** 给 grok 命令行的单张任务：先 image_edit 出静帧，再 image_to_video，mp4 存到指定路径。 */
-function grokPrompt(s, out, ver) {
+function grokPrompt(s, out, ver, overlay = true) {
   return [
     `你在做多美表情包的一张：${s.caption}（id: ${s.id}，第 ${ver} 版）。只做这一张，做完只回复视频路径。`,
-    `1. 用 image_edit，以 public/refs/watermelon-white.jpg 为参考图，出一张 1:1 静帧（动作的起始姿势），提示词：${LOOK} Starting pose for: ${s.action}. Bold red Chinese caption "${s.caption}" with thick white outline at the very bottom, not covering the face.`,
-    `2. 用 image_to_video，以这张静帧为首帧，生成 6 秒 1:1 视频，提示词：${s.action}. ${s.hit ? STYLE_HIT : STYLE_FACE} ${LOCK}${ver !== "1" ? " Make this take noticeably different in timing and details from other takes." : ""}`,
+    `1. 用 image_edit，以 public/refs/watermelon-white.jpg 为参考图，出一张 1:1 静帧（动作的起始姿势），提示词：${LOOK} Starting pose for: ${s.action}. ${overlay ? "NO text, NO letters, NO caption anywhere in the image; leave the bottom 20% of the image as empty cream background." : `Bold red Chinese caption "${s.caption}" with thick white outline at the very bottom, not covering the face.`}`,
+    `2. 用 image_to_video，以这张静帧为首帧，生成 6 秒 1:1 视频，提示词：${s.action}. ${s.hit ? STYLE_HIT : STYLE_FACE} ${LOCK}${overlay ? " Keep the bottom 20% empty, no text." : ""}${ver !== "1" ? " Make this take noticeably different in timing and details from other takes." : ""}`,
     `3. 把视频保存为 ${out}（用 run_terminal_command 复制或移动过去，确认文件存在）。`,
     "不要改仓库里的任何其他文件，不要 git 提交或推送。",
   ].join("\n");
@@ -264,15 +287,16 @@ function downloadTmpfiles(url, out) {
 export function makeSticker(video, a) {
   const speed = Number(a.speed ?? 1);
   // 加速时按加速后的时长选片段（源视频 24fps）
-  const { cut, boom, best } = findLoop(video, 24 * speed, a.start ? 0 : Number(a.len ?? 0));
+  const { cut, boom, peak, best } = findLoop(video, 24 * speed, a.start ? 0 : Number(a.len ?? 0));
   let plan = best;
   if (a.mode === "cut") plan = cut;
   if (a.mode === "boomerang") plan = boom;
+  if (a.mode === "peak") plan = peak;
   if (a.start) plan = { ...plan, start: Number(a.start), len: Number(a.len ?? plan.len) };
   const dir = a.cand ? join(CANDIDATES, a.pack, a.id) : join(STICKERS, a.pack);
   mkdirSync(dir, { recursive: true });
   const out = join(dir, `${a.cand ?? a.id}.gif`);
-  const enc = encode(video, out, plan, speed);
+  const enc = encode(video, out, plan, speed, a.caption ?? "");
   const q = qaGif(out);
   const info = { id: a.id, cand: a.cand, plan: { mode: plan.mode, start: plan.start, len: plan.len, speed }, source: video, ...enc, ...q.metrics };
   writeFileSync(out.replace(/\.gif$/, ".json"), JSON.stringify({ ...info, ok: q.ok, problems: q.problems }, null, 2));
@@ -387,13 +411,14 @@ async function main() {
       const out = join(ROOT, ".sticker-sources", pack, `${s.id}-${ver}.mp4`);
       mkdirSync(dirname(out), { recursive: true });
       console.log(`🎬 生成中 ${s.id}-${ver} …`);
-      const child = spawn("grok", ["-p", grokPrompt(s, out, ver), "--always-approve", "--cwd", ROOT], { stdio: ["ignore", "pipe", "pipe"] });
+      const child = spawn("grok", ["-p", grokPrompt(s, out, ver, brief.captionOverlay !== false), "--always-approve", "--cwd", ROOT], { stdio: ["ignore", "pipe", "pipe"] });
       let log = "";
       child.stdout.on("data", (d) => (log += d));
       child.stderr.on("data", (d) => (log += d));
       child.on("close", () => {
         if (!existsSync(out)) { console.log(`❌ ${s.id}-${ver} 没生成出视频：${log.slice(-300)}`); return resolve(); }
-        try { makeSticker(out, { pack, id: s.id, cand: ver, mode: "cut", ...(s.hit ? { speed: "1.3" } : {}) }); }
+        const overlay = brief.captionOverlay !== false;
+        try { makeSticker(out, { pack, id: s.id, cand: ver, ...(s.hit ? { mode: "cut", speed: "1.3" } : { mode: "peak" }), ...(overlay ? { caption: s.caption } : {}) }); }
         catch (e) { console.log(`❌ ${s.id}-${ver} 做 GIF 失败：${e.message}`); }
         resolve();
       });

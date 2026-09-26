@@ -2,23 +2,114 @@
   "pack": "set-08",
   "note": "暴躁日常。打击类(hit)要快、连打；表情类要可爱、适度、意思一眼懂。",
   "stickers": [
-    { "id": "punch", "caption": "打你", "hit": true, "action": "left-right hooks punching the pink piglet rapidly 4-5 times, piglet's face squishes and it leans back with each hit, impact lines on every punch" },
-    { "id": "kick", "caption": "暴打", "hit": true, "action": "holding the pink piglet with one arm and hammering it with rapid double-fist blows, small yellow impact bursts on each hit" },
-    { "id": "dummy", "caption": "抽你", "hit": true, "action": "swinging a pink slipper and slapping the pink piglet back and forth rapidly, slipper swoosh lines" },
-    { "id": "slap", "caption": "笨笨", "hit": true, "action": "the pink piglet lies flat on the ground; she waves her hand down and pats/smacks its head repeatedly, exasperated face" },
-    { "id": "stomp", "caption": "踩你", "hit": true, "action": "stomping on the flattened pink piglet with one foot repeatedly, small dust puffs" },
-    { "id": "hammer", "caption": "小拳拳捶你", "hit": true, "action": "cutesy 'tiny fists' meme: pouting, cheeks a little pink, no tears, pounding the piglet's chest with two tiny fists very fast; the piglet looks innocent" },
-    { "id": "flykick", "caption": "飞踢！", "hit": true, "action": "two running steps, jumps into a side flying kick, hits the piglet which flies in an arc completely out of the frame with a small twinkle star where it left, she lands and strikes a pose" },
-    { "id": "throw", "caption": "滚！", "hit": false, "action": "pun on 滚 (roll): one hand on hip, the other hand flicks outward; the piglet curls into a ball and rolls out of the frame; she dusts off her hands with a disdainful look" },
-    { "id": "pout", "caption": "不想理你", "hit": false, "action": "covers both ears, eyes shut, lips pouted, shakes head side to side ('not listening'), then turns her back to the camera; a tiny grey cloud above her head" },
-    { "id": "hmph", "caption": "哼！", "hit": false, "action": "arms crossed, lifts chin and turns head away, eyes closed, lips pouted, a tiny wisp of air from the nose, then secretly opens one eye to peek back" },
-    { "id": "eyeroll", "caption": "翻白眼", "hit": false, "action": "one hand on hip, rolls her eyes slowly up until only the whites show, head tilts back slightly, mouth flat, then eyes come back down" },
-    { "id": "angry", "caption": "生气", "hit": false, "action": "hands on hips, cheeks puff up and turn a little pink, stamps one foot once, a small anger mark and a tiny puff of steam appear, then she turns her head away with a 'hmph'" },
-    { "id": "tantrum", "caption": "气死我了", "hit": false, "action": "lying on the floor throwing a tantrum, kicking legs and pounding the floor with small fists, mouth wide open crying out" },
-    { "id": "glare", "caption": "我真的会谢", "hit": false, "action": "deadpan tired eyes, puts palms together and bows deeply three times in a row, a sweat drop above her head" },
-    { "id": "bukui", "caption": "不愧是你", "hit": false, "action": "sarcastic praise: claps slowly twice, gives a thumbs-up, tilts head with a sly squinting smirk, a tiny sparkle above her head" },
-    { "id": "flick", "caption": "无语", "hit": false, "action": "speechless: shoulders drop, a row of three dots appears above her head, she sighs and slowly shakes her head" },
-    { "id": "bite", "caption": "崩了你", "hit": false, "action": "wearing a cowboy hat and sunglasses, spins two toy pistols on her fingers then points them at the camera with a cool grin" },
-    { "id": "niu", "caption": "牛啊", "hit": false, "action": "big grin, two thumbs up pushed toward the camera, little bounce on her feet" }
-  ]
+    {
+      "id": "punch",
+      "caption": "打你",
+      "hit": true,
+      "action": "left-right hooks punching the pink piglet rapidly 4-5 times, piglet's face squishes and it leans back with each hit, impact lines on every punch"
+    },
+    {
+      "id": "kick",
+      "caption": "暴打",
+      "hit": true,
+      "action": "holding the pink piglet with one arm and hammering it with rapid double-fist blows, small yellow impact bursts on each hit"
+    },
+    {
+      "id": "dummy",
+      "caption": "抽你",
+      "hit": true,
+      "action": "swinging a pink slipper and slapping the pink piglet back and forth rapidly, slipper swoosh lines"
+    },
+    {
+      "id": "slap",
+      "caption": "笨笨",
+      "hit": true,
+      "action": "the pink piglet lies flat on the ground; she waves her hand down and pats/smacks its head repeatedly, exasperated face"
+    },
+    {
+      "id": "stomp",
+      "caption": "踩你",
+      "hit": true,
+      "action": "stomping on the flattened pink piglet with one foot repeatedly, small dust puffs"
+    },
+    {
+      "id": "hammer",
+      "caption": "小拳拳捶你",
+      "hit": true,
+      "action": "cutesy 'tiny fists' meme: pouting, cheeks a little pink, no tears, pounding the piglet's chest with two tiny fists very fast; the piglet looks innocent"
+    },
+    {
+      "id": "flykick",
+      "caption": "飞踢！",
+      "hit": true,
+      "action": "two running steps, jumps into a side flying kick, hits the piglet which flies in an arc completely out of the frame with a small twinkle star where it left, she lands and strikes a pose"
+    },
+    {
+      "id": "throw",
+      "caption": "滚！",
+      "hit": false,
+      "action": "pun on 滚 (roll): one hand on hip, the other hand flicks outward; the piglet curls into a ball and rolls out of the frame; she dusts off her hands with a disdainful look"
+    },
+    {
+      "id": "pout",
+      "caption": "不想理你",
+      "hit": false,
+      "action": "covers both ears, eyes shut, lips pouted, shakes head side to side ('not listening'), then turns her back to the camera; a tiny grey cloud above her head"
+    },
+    {
+      "id": "hmph",
+      "caption": "哼！",
+      "hit": false,
+      "action": "arms crossed, lifts chin and turns head away, eyes closed, lips pouted, a tiny wisp of air from the nose, then secretly opens one eye to peek back"
+    },
+    {
+      "id": "eyeroll",
+      "caption": "翻白眼",
+      "hit": false,
+      "action": "one hand on hip, rolls her eyes slowly up until only the whites show, head tilts back slightly, mouth flat, then eyes come back down"
+    },
+    {
+      "id": "angry",
+      "caption": "生气",
+      "hit": false,
+      "action": "hands on hips, cheeks puff up and turn a little pink, stamps one foot once, a small anger mark and a tiny puff of steam appear, then she turns her head away with a 'hmph'"
+    },
+    {
+      "id": "tantrum",
+      "caption": "气死我了",
+      "hit": false,
+      "action": "lying on the floor throwing a tantrum, kicking legs and pounding the floor with small fists, mouth wide open crying out"
+    },
+    {
+      "id": "glare",
+      "caption": "我真的会谢",
+      "hit": false,
+      "action": "deadpan tired eyes, puts palms together and bows deeply three times in a row, a sweat drop above her head"
+    },
+    {
+      "id": "bukui",
+      "caption": "不愧是你",
+      "hit": false,
+      "action": "sarcastic praise: claps slowly twice, gives a thumbs-up, tilts head with a sly squinting smirk, a tiny sparkle above her head"
+    },
+    {
+      "id": "flick",
+      "caption": "无语",
+      "hit": false,
+      "action": "speechless: shoulders drop, a row of three dots appears above her head, she sighs and slowly shakes her head"
+    },
+    {
+      "id": "bite",
+      "caption": "崩了你",
+      "hit": false,
+      "action": "wearing a cowboy hat and sunglasses, spins two toy pistols on her fingers then points them at the camera with a cool grin"
+    },
+    {
+      "id": "niu",
+      "caption": "牛啊",
+      "hit": false,
+      "action": "big grin, two thumbs up pushed toward the camera, little bounce on her feet"
+    }
+  ],
+  "captionOverlay": false
 }
