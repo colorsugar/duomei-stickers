@@ -1,0 +1,21 @@
+{
+  "pack": "set-21",
+  "character": "pigcat",
+  "captions": false,
+  "theme": "毛绒日常",
+  "name": "猫猫猪猪",
+  "nameEn": "Fluffy Cat & Pig",
+  "slug": "fluffy-cat-pig",
+  "tagline": "贴贴 比心 晚安",
+  "note": "毛绒 3D 软萌风，参考可可和嘟嘟的节奏但角色原创。不加字，靠表情和小动作；动作轻柔，停在最萌的一下。",
+  "stickers": [
+    { "id": "hug", "caption": "贴贴", "hit": false, "action": "The kitten and the piglet lean in and squish their fluffy cheeks together, rubbing cheeks side to side happily with eyes closed, tiny pink blush glowing." },
+    { "id": "heart", "caption": "比心", "hit": false, "action": "The kitten holds up a small pink felted heart with both paws toward the camera, the heart wobbles softly, the kitten blinks and smiles." },
+    { "id": "sad", "caption": "委屈", "hit": false, "action": "The piglet's lower lip trembles, big glossy teary eyes slowly well up, two tiny tears roll down its cheeks, it sniffles." },
+    { "id": "peek", "caption": "偷看", "hit": false, "action": "The kitten slowly peeks out from behind the edge of a wooden door, one eye and one ear appear, it blinks curiously, then quickly hides back." },
+    { "id": "night", "caption": "晚安", "hit": false, "action": "The piglet is tucked under a tiny patchwork quilt, it yawns big, its eyes slowly close, a little crescent moon sparkle twinkles above." },
+    { "id": "eat", "caption": "干饭", "hit": false, "action": "The kitten munches a tiny felted watermelon slice with both paws, cheeks puffing out with each bite, eyes happily closed." },
+    { "id": "pat", "caption": "摸摸头", "hit": false, "action": "The kitten gently pats the piglet on the head with one paw, the piglet closes its eyes and smiles contentedly, leaning into the pat." },
+    { "id": "shy", "caption": "害羞", "hit": false, "action": "The piglet covers its face with its little hooves, cheeks blushing deep pink, it wiggles shyly side to side and peeks through its hooves." }
+  ]
+}

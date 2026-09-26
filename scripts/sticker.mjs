@@ -427,8 +427,8 @@ async function main() {
       child.stderr.on("data", (d) => (log += d));
       child.on("close", () => {
         if (!existsSync(out)) { console.log(`❌ ${s.id}-${ver} 没生成出视频：${log.slice(-300)}`); return resolve(); }
-        const overlay = brief.captionOverlay !== false;
-        try { makeSticker(out, { pack, id: s.id, cand: ver, ...(s.hit ? { mode: "cut", speed: "1.3" } : { mode: "peak" }), ...(overlay ? { caption: s.caption } : {}) }); }
+        const overlay = brief.captionOverlay !== false; // true = 视频里不写字（字后期加，或 captions:false 时不加）
+        try { makeSticker(out, { pack, id: s.id, cand: ver, ...(s.hit ? { mode: "cut", speed: "1.3" } : { mode: "peak" }), ...(overlay && brief.captions !== false ? { caption: s.caption } : {}) }); }
         catch (e) { console.log(`❌ ${s.id}-${ver} 做 GIF 失败：${e.message}`); }
         resolve();
       });
