@@ -1,0 +1,58 @@
+{
+  "pack": "set-20",
+  "theme": "上班摸鱼",
+  "name": "上班摸鱼",
+  "nameEn": "Slacking at Work",
+  "slug": "work-slack",
+  "tagline": "摸鱼中 老板来了 我先溜了",
+  "stickers": [
+    {
+      "id": "slack",
+      "caption": "摸鱼中",
+      "hit": false,
+      "action": "Starts seated in an office chair, one hand on the keyboard and the other hiding a phone under the desk. She side-eyes, thumb-scrolls the phone with a small grin and one sweat drop, then looks back at the monitor and settles into the same seated pose."
+    },
+    {
+      "id": "boss",
+      "caption": "老板来了",
+      "hit": false,
+      "action": "Starts standing at the desk with a phone in both hands, feet planted. She flinches, stuffs the phone behind her back, fake-types with a stiff smile and one sweat drop, then brings the phone forward and returns to the same standing pose."
+    },
+    {
+      "id": "daze",
+      "caption": "带薪发呆",
+      "hit": false,
+      "action": "Starts lying flat on her back on the office floor, arms loose, eyes unfocused. A tiny star blinks once above her; she sighs, the star fades, and she stays lying in the same pose."
+    },
+    {
+      "id": "clock",
+      "caption": "到点了！",
+      "hit": false,
+      "action": "Starts standing beside the desk, watching a small clock. She jumps up with both feet and arms thrown high, a few tiny stars pop, she lands, and she settles back into the same standing pose grinning."
+    },
+    {
+      "id": "signal",
+      "caption": "信号不好",
+      "hit": false,
+      "action": "Starts standing facing forward, phone held at her chest. She turns her back to the camera, lifts the phone as if searching for signal, peeks over her shoulder with a sly smile and one sweat drop, then turns to face front again."
+    },
+    {
+      "id": "buddy",
+      "caption": "一起摸鱼",
+      "hit": false,
+      "action": "Starts seated facing the pink piglet on the desk. They quietly fist-bump, duck together behind the monitor to peek at a phone, a tiny star pops, then both rise back to the same face-to-face seated pose."
+    },
+    {
+      "id": "slip",
+      "caption": "我先溜了",
+      "hit": false,
+      "action": "Starts standing by the desk, glancing left and right. She tiptoes, then sprints so her whole body leaves the frame completely; after a short empty beat she slides back in and stops in the same standing pose, still looking around."
+    },
+    {
+      "id": "wake",
+      "caption": "别睡了",
+      "hit": true,
+      "action": "Starts standing over the pink piglet asleep on the keyboard, one palm raised. She pats the top of its head rapidly four or five times, light and cute, with a small yellow tick on each pat; the piglet squishes and blinks, then drops back to sleep as her hand returns to the raised start."
+    }
+  ]
+}

@@ -6,21 +6,35 @@
  *
  * 候选来自 .sticker-candidates/<pack>/<id>/<n>.gif（sticker.mjs make --cand / fetch / gen 生成）。
  */
-import { execFileSync } from "node:child_process";
-import { copyFileSync, existsSync, readFileSync, readdirSync, rmSync, statSync } from "node:fs";
+import { execFileSync, spawn } from "node:child_process";
+import { copyFileSync, existsSync, mkdirSync, openSync, readFileSync, readdirSync, rmSync, statSync } from "node:fs";
 import { createServer } from "node:http";
 import { extname, join, normalize } from "node:path";
 import { CANDIDATES, ROOT, STICKERS, publish, qaGif } from "./sticker.mjs";
 
+const JOBS = join(ROOT, ".sticker-jobs");
 const PORT = Number(process.env.PORT ?? 5178);
 const MIME = { ".gif": "image/gif", ".png": "image/png", ".json": "application/json", ".html": "text/html; charset=utf-8" };
 
+function readBrief(pack) {
+  const f = join(ROOT, "briefs", `${pack}.json`);
+  return existsSync(f) ? JSON.parse(readFileSync(f, "utf8")) : null;
+}
+
 function packsInfo() {
   const src = readFileSync(join(ROOT, "src/lib/packs.ts"), "utf8");
-  return [...src.matchAll(/id: "(set-\d+)",\s*slug: "[^"]*",\s*name: "([^"]+)"/g)].map((m) => ({ id: m[1], name: m[2] }));
+  const live = [...src.matchAll(/id: "(set-\d+)",\s*slug: "[^"]*",\s*name: "([^"]+)"/g)].map((m) => ({ id: m[1], name: m[2] }));
+  const drafts = existsSync(join(ROOT, "briefs"))
+    ? readdirSync(join(ROOT, "briefs")).map((f) => f.replace(/\.json$/, "")).filter((id) => !live.some((p) => p.id === id))
+        .map((id) => ({ id, name: `${readBrief(id)?.name ?? id}（新·未上架）` }))
+    : [];
+  return [...drafts.reverse(), ...live];
 }
 
 function stickerNames(pack) {
+  const b = readBrief(pack);
+  if (b && !readFileSync(join(ROOT, "src/lib/packs.ts"), "utf8").includes(`id: "${pack}"`))
+    return b.stickers.map((x) => ({ id: x.id, name: x.caption }));
   const src = readFileSync(join(ROOT, "src/lib/packs.ts"), "utf8");
   const block = src.slice(src.indexOf(`id: "${pack}"`));
   return [...block.slice(0, block.indexOf("],")).matchAll(/\{ id: "([^"]+)", name: "([^"]+)"/g)].map((m) => ({ id: m[1], name: m[2] }));
@@ -79,6 +93,20 @@ createServer(async (req, res) => {
       if (!file.startsWith(ROOT) || !existsSync(file)) return send(res, 404, "not found", "text/plain");
       return send(res, 200, readFileSync(file), MIME[extname(file)] ?? "application/octet-stream");
     }
+    if (url.pathname === "/api/new" && req.method === "POST") {
+      const { theme, count } = await body(req);
+      if (!theme) return send(res, 400, { error: "写一个主题" });
+      mkdirSync(JOBS, { recursive: true });
+      const log = join(JOBS, `${Date.now()}.log`);
+      const fd = openSync(log, "a");
+      spawn(process.execPath, [join(ROOT, "scripts/sticker.mjs"), "new", theme, "--count", String(count || 8)], { cwd: ROOT, detached: true, stdio: ["ignore", fd, fd] }).unref();
+      return send(res, 200, { ok: true });
+    }
+    if (url.pathname === "/api/jobs") {
+      if (!existsSync(JOBS)) return send(res, 200, { log: "" });
+      const last = readdirSync(JOBS).sort().pop();
+      return send(res, 200, { log: last ? readFileSync(join(JOBS, last), "utf8").split("\n").slice(-8).join("\n") : "" });
+    }
     if (url.pathname === "/api/pick" && req.method === "POST") {
       const { pack, id, cand } = await body(req);
       const from = join(CANDIDATES, pack, id, `${cand}.gif`);
@@ -134,6 +162,11 @@ main{padding:16px 20px;display:grid;gap:14px}
 <button id="reload">刷新</button>
 <button class="primary" id="publish">上架到网站</button>
 <span id="status"></span></header>
+<section id="newbar" style="padding:10px 20px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;border-bottom:1px solid var(--line)">
+<b>新主题</b><input id="theme" placeholder="一句话，比如：上班摸鱼" style="flex:1;min-width:180px;font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:10px">
+<select id="count"><option>4</option><option>6</option><option selected>8</option><option>12</option><option>16</option></select><span style="color:var(--muted)">张</span>
+<button id="go">开始做</button></section>
+<pre id="job" style="margin:0;padding:6px 20px;color:var(--muted);font-size:12px;white-space:pre-wrap"></pre>
 <main id="list"></main>
 <script>
 const $=s=>document.querySelector(s);let pack;
@@ -161,6 +194,11 @@ $("#pack").onchange=e=>{pack=e.target.value;try{localStorage.pack=pack}catch{}lo
 $("#only").onchange=load;$("#reload").onclick=load;
 $("#publish").onclick=async()=>{if(!confirm("把 "+pack+" 当前选用的图推到 duomei.vercel.app？"))return;
   $("#publish").disabled=true;status("上架中…");try{const r=await j("/api/publish",{method:"POST",body:JSON.stringify({pack})});status(r.log)}catch(e){status("失败："+e.message)}$("#publish").disabled=false};
+$("#go").onclick=async()=>{const theme=$("#theme").value.trim();if(!theme)return;
+  await j("/api/new",{method:"POST",body:JSON.stringify({theme,count:+$("#count").value})});$("#theme").value="";status("已开始：先策划，再逐张生成（每张几分钟）。进度见下方，做完的候选会自动出现。")};
+setInterval(async()=>{try{const r=await j("/api/jobs");$("#job").textContent=r.log;
+  if(/📝|✅|❌/.test(r.log)&&r.log!==window._last){window._last=r.log;const ps=await j("/api/packs");const cur=$("#pack").value;
+  $("#pack").innerHTML=ps.map(p=>'<option value="'+p.id+'">'+p.name+' ('+p.id+')</option>').join("");$("#pack").value=cur;}}catch{}},5000);
 (async()=>{const ps=await j("/api/packs");let saved;try{saved=localStorage.pack}catch{}
   $("#pack").innerHTML=ps.map(p=>'<option value="'+p.id+'">'+p.name+' ('+p.id+')</option>').join("");
   pack=ps.some(p=>p.id===saved)?saved:"set-08";$("#pack").value=pack;load()})();

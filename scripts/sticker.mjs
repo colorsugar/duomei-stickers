@@ -5,6 +5,8 @@
  *
  *   node scripts/sticker.mjs make <video.mp4> --pack set-08 --id angry [--mode auto|cut|boomerang] [--start N --len N] [--speed 1.5]
  *   node scripts/sticker.mjs fetch <pack> <grok回复.txt> [--hits punch,kick]   # 下载 Grok 的视频并做成候选
+ *   node scripts/sticker.mjs new "上班摸鱼" [--count 8] [--versions 2]   # 一句话主题 → 自动策划整套 → 生成候选
+ *   node scripts/sticker.mjs plan "上班摸鱼" [--count 8]                 # 只策划，写 briefs/，不生成
  *   node scripts/sticker.mjs gen <pack> [id ...] [--versions 2]   # 本机 grok 按 briefs/<pack>.json 生成视频→候选
  *   node scripts/sticker.mjs list <pack>                     # 每张的线上状态和候选
  *   node scripts/sticker.mjs pick <pack> <id> <候选号>        # 选用候选（不上架）
@@ -156,6 +158,80 @@ function contactSheet(pack, ids, out) {
     `${rows.map((_, i) => `[${i}:v]`).join("")}vstack=inputs=${rows.length}`, out]);
 }
 
+const PLAN_RULES = `你是国内热门 Q 版表情包的策划。主角永远是「多美」：爱吃西瓜的元气小女孩（西瓜原皮：棕色短发+西瓜髻、白T、樱桃红西瓜籽背带短裤、西瓜挎包、红鞋），常用配角是一只粉色小猪。
+为主题策划一套表情包，要求：
+- 每张是年轻人在微信聊天里真会发的一句话（caption，2–6 个汉字，可带！或…），优先用大家都懂的说法和梗，不要生造没人说的句子。
+- 每张一个动作，3 秒内看懂，意思和 caption 一眼对上；一套里动作互不相同（站、坐、躺、跳、转身、和小猪互动都要有）。
+- 打击类（打、抽、踢、捶、踩、拍）hit=true：快、连打、可爱不暴力；其余 hit=false：可爱适度、正常节奏，特效小（小乌云、汗滴、星星、青筋），不许把脸变形成别的东西、不许大爆炸大团烟雾。
+- 离场类动作（踢飞、滚走、跑掉）写清楚「整个出画面」。
+- action 用英文写：起始姿势 → 动作 → 结束接近起始姿势，一两句，给图生视频模型看。
+- id 用简短英文小写（字母数字），互不重复。`;
+
+const PLAN_SCHEMA = {
+  type: "object",
+  properties: {
+    name: { type: "string", description: "套装中文名，2–6 字" },
+    nameEn: { type: "string" },
+    slug: { type: "string", description: "英文小写短横线" },
+    tagline: { type: "string", description: "三个代表性 caption 用空格连接" },
+    stickers: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: { id: { type: "string" }, caption: { type: "string" }, hit: { type: "boolean" }, action: { type: "string" } },
+        required: ["id", "caption", "hit", "action"],
+      },
+    },
+  },
+  required: ["name", "nameEn", "slug", "tagline", "stickers"],
+};
+
+function nextPackId() {
+  const src = readFileSync(join(ROOT, "src/lib/packs.ts"), "utf8");
+  const used = [...src.matchAll(/id: "set-(\d+)"/g)].map((m) => Number(m[1]));
+  const briefs = existsSync(join(ROOT, "briefs")) ? readdirSync(join(ROOT, "briefs")).map((f) => Number(f.match(/set-(\d+)/)?.[1] ?? 0)) : [];
+  return `set-${String(Math.max(0, ...used, ...briefs) + 1).padStart(2, "0")}`;
+}
+
+export function planPack(theme, count, pack) {
+  const prompt = `${PLAN_RULES}\n\n主题：${theme}\n张数：${count}\n只输出 JSON。`;
+  const outStr = run("grok", ["-p", prompt, "--json-schema", JSON.stringify(PLAN_SCHEMA), "--cwd", ROOT]).toString();
+  const data = JSON.parse(outStr).structuredOutput;
+  const brief = { pack, theme, ...data, stickers: data.stickers.slice(0, count) };
+  mkdirSync(join(ROOT, "briefs"), { recursive: true });
+  writeFileSync(join(ROOT, "briefs", `${pack}.json`), JSON.stringify(brief, null, 2) + "\n");
+  return brief;
+}
+
+/** 新套装第一次上架：按 brief 登记到 packs.ts（PACKS + READY_PACK_IDS）。 */
+function registerPack(pack) {
+  const file = join(ROOT, "src/lib/packs.ts");
+  let src = readFileSync(file, "utf8");
+  if (src.includes(`id: "${pack}"`)) return;
+  const b = JSON.parse(readFileSync(join(ROOT, "briefs", `${pack}.json`), "utf8"));
+  const entry = `  {
+    id: "${pack}",
+    slug: "${b.slug}",
+    name: "${b.name}",
+    nameEn: "${b.nameEn}",
+    outfit: "watermelon",
+    tagline: "${b.tagline}",
+    accent: "melon",
+    updatedAt: "${new Date().toISOString().slice(0, 10)}",
+    stickers: [
+${b.stickers.map((x) => `      { id: "${x.id}", name: "${x.caption.replace(/[！!…]+$/, "")}", motion: ${JSON.stringify(x.action.slice(0, 40))} },`).join("\n")}
+    ],
+  },
+`;
+  const start = src.indexOf("export const PACKS");
+  const i = start < 0 ? -1 : src.indexOf("\n];", start) + 1;
+  if (i <= 0) throw new Error("packs.ts 结构变了，找不到 PACKS 结尾，手动登记");
+  src = src.slice(0, i) + entry + src.slice(i);
+  src = src.replace(/READY_PACK_IDS = \[([^\]]*)\]/, (m, list) => `READY_PACK_IDS = [${list.replace(/,\s*$/, "")}, "${pack}"]`);
+  writeFileSync(file, src);
+  console.log(`已把新套装 ${pack}「${b.name}」登记到 packs.ts`);
+}
+
 const LOOK = "Same locked watermelon-skin Duomei as the reference image public/refs/watermelon-white.jpg: chibi girl, WARM CHOCOLATE-BROWN short bob with blunt bangs (NOT black), round watermelon bun on the crown with a curly green vine and one small leaf, pink oval blush, big round dark-brown eyes. White T-shirt under cherry-watermelon-red overall shorts with black seed dots, watermelon-slice crossbody bag, white socks, red sneakers. Thick clean WHITE STICKER DIE-CUT OUTLINE around the character. Plain cream background, flat clean colors, cute sticker illustration, square 1:1. Full body centered. Any pig is the same small cute pink piglet.";
 const STYLE_HIT = "Fast snappy cartoon hitting: rapid consecutive hits with no pause between them, small impact lines on each hit. Cute, not violent.";
 const STYLE_FACE = "Cute and restrained chibi expression animation at a normal natural pace: clear readable facial expression, small effects only (a tiny cloud, sweat drop, sparkle or anger mark). Do NOT turn the face into another shape, no big explosions, no big clouds covering the character, not frantic.";
@@ -216,6 +292,7 @@ function stickerNames(pack) {
 }
 
 export function publish(pack) {
+  if (existsSync(join(ROOT, "briefs", `${pack}.json`))) registerPack(pack);
   const dir = join(STICKERS, pack);
   const names = stickerNames(pack);
   const order = Object.keys(names).filter((id) => existsSync(join(dir, `${id}.gif`)));
@@ -284,6 +361,18 @@ async function main() {
     }
     console.log(`\n候选已生成。打开工作台挑选：node scripts/sticker-studio.mjs`);
     return;
+  }
+
+  if (cmd === "plan" || cmd === "new") {
+    // 一句话主题 → grok 按规范策划整套 briefs/<pack>.json；new 还会接着生成全部候选
+    const theme = a._.join(" ");
+    if (!theme) throw new Error('用法: new "上班摸鱼" [--count 8] [--versions 2] [--pack set-20]');
+    const pack = a.pack ?? nextPackId();
+    const brief = planPack(theme, Number(a.count ?? 8), pack);
+    console.log(`📝 ${pack} ${brief.name}：${brief.stickers.map((x) => x.caption).join(" / ")}`);
+    if (cmd === "plan") return;
+    process.argv = [process.argv[0], process.argv[1], "gen", pack, "--versions", String(a.versions ?? 2)];
+    return main();
   }
 
   if (cmd === "gen") {

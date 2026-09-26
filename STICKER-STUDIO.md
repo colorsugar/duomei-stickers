@@ -8,6 +8,18 @@ Claude、Cursor、grok 命令行、Codex 都按这份做。画风、角色、设
 - **用户**：在工作台 http://localhost:5178 里看、选，点「上架到网站」。
 - **AI 不许自己上架**（不许跑 `publish`、不许 push `public/stickers`），除非用户在对话里明确说「这张上架」。
 
+## 一句话做一套新主题
+
+用户说「做一套 XX，N 张」时：
+
+```bash
+node scripts/sticker.mjs new "上班摸鱼" --count 8 --versions 2   # 自动策划 → 写 briefs/set-XX.json → 生成全部候选
+node scripts/sticker.mjs plan "上班摸鱼" --count 8               # 只策划，先给用户看文字方案
+```
+
+也可以在工作台顶部「新主题」框里填一句话、选张数，点「开始做」。新套装在工作台里显示为「（新·未上架）」；第一次上架时会自动登记到 `src/lib/packs.ts`。
+策划规则写在 `scripts/sticker.mjs` 的 `PLAN_RULES`（梗、一眼看懂、打击类要快、表情类适度、离场要出画面）。
+
 ## 内容写在哪
 
 `briefs/<pack>.json`，每张一条：

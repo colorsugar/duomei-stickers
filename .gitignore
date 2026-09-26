@@ -22,3 +22,4 @@ public/downloads/*.zip
 .sticker-qa/
 .sticker-candidates/
 .sticker-sources/
+.sticker-jobs/
