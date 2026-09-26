@@ -68,7 +68,18 @@ Locked camera, no zoom, no pan, no tilt. Square 1:1. Character stays full-body c
 
 动作要大、要有情绪高潮：打/抽/踢要凶要快；"无语""白眼"这类表情也要有完整动作（耸肩、仰头翻眼），不能只是站着眨眼。
 
-# 流程
+
+# 本机流程（推荐，Claude 在用户电脑上跑）
+
+工作副本：`~/Projects/duomei-sticker-studio`。
+
+1. 在 `briefs/<pack>.json` 写每张的 caption、action、是否打击类（hit）。
+2. `node scripts/sticker.mjs gen <pack> [id ...] --versions 2` —— 调本机 `grok -p` 用 image_edit + image_to_video 出 6 秒视频，存 `.sticker-sources/`，自动做成候选 GIF 放 `.sticker-candidates/`（打击类自动 1.3 倍速）。
+   已有 tmpfiles 链接时：把 Grok 回复存成文本，`node scripts/sticker.mjs fetch <pack> reply.txt`。
+3. `node scripts/sticker-studio.mjs` 打开 http://localhost:5178 工作台：每张并排显示「线上现在」和各候选，带自动质检结果；点「用这个」选用，点「上架到网站」才会 publish + commit + push。
+4. 上架后打开线上套装页确认。
+
+# 流程（网页版 Grok）
 
 1. 写动作清单（每张：动作、情绪、打谁、字）。动作互不相同，站、坐、躺、转身、特写都要有。
 2. 出静帧 → 看过再出 **6 秒 1:1 视频**。视频里出现分身、多手、脸漂、黑发、残字 = 重生成。

@@ -4,12 +4,14 @@
  * 依赖：ffmpeg、gifsicle（mac: brew install ffmpeg gifsicle）。
  *
  *   node scripts/sticker.mjs make <video.mp4> --pack set-08 --id angry [--mode auto|cut|boomerang] [--start N --len N] [--speed 1.5]
+ *   node scripts/sticker.mjs fetch <pack> <grok回复.txt> [--hits punch,kick]   # 下载 Grok 的视频并做成候选
+ *   node scripts/sticker.mjs gen <pack> [id ...] [--versions 2]   # 本机 grok 按 briefs/<pack>.json 生成视频→候选
  *   node scripts/sticker.mjs qa <pack> [id ...]        # 不合格 exit 1，并生成逐帧对照图
  *   node scripts/sticker.mjs publish <pack>            # 更新 manifest / sizes / index，刷新 ?v= 缓存版本
  *
  * 规则写在 .grok/skills/duomei-stickers/SKILL.md，本脚本是它的执行版。
  */
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawn } from "node:child_process";
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
@@ -18,6 +20,8 @@ import { fileURLToPath } from "node:url";
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const STICKERS = join(ROOT, "public", "stickers");
 const QA_DIR = join(ROOT, ".sticker-qa");
+export const CANDIDATES = join(ROOT, ".sticker-candidates");
+export { STICKERS, ROOT };
 
 export const SPEC = {
   size: 240,
@@ -149,6 +153,54 @@ function contactSheet(pack, ids, out) {
     `${rows.map((_, i) => `[${i}:v]`).join("")}vstack=inputs=${rows.length}`, out]);
 }
 
+const LOOK = "Same locked watermelon-skin Duomei as the reference image public/refs/watermelon-white.jpg: chibi girl, WARM CHOCOLATE-BROWN short bob with blunt bangs (NOT black), round watermelon bun on the crown with a curly green vine and one small leaf, pink oval blush, big round dark-brown eyes. White T-shirt under cherry-watermelon-red overall shorts with black seed dots, watermelon-slice crossbody bag, white socks, red sneakers. Thick clean WHITE STICKER DIE-CUT OUTLINE around the character. Plain cream background, flat clean colors, cute sticker illustration, square 1:1. Full body centered. Any pig is the same small cute pink piglet.";
+const STYLE_HIT = "Fast snappy cartoon hitting: rapid consecutive hits with no pause between them, small impact lines on each hit. Cute, not violent.";
+const STYLE_FACE = "Cute and restrained chibi expression animation at a normal natural pace: clear readable facial expression, small effects only (a tiny cloud, sweat drop, sparkle or anger mark). Do NOT turn the face into another shape, no big explosions, no big clouds covering the character, not frantic.";
+const LOCK = "Locked camera, no zoom, no pan, no tilt. Character stays full-body in frame. Background still. One complete action within about 3 seconds, ending close to the starting pose. Same face, hair and outfit throughout. No extra limbs, no text generated inside the video.";
+
+/** 给 grok 命令行的单张任务：先 image_edit 出静帧，再 image_to_video，mp4 存到指定路径。 */
+function grokPrompt(s, out, ver) {
+  return [
+    `你在做多美表情包的一张：${s.caption}（id: ${s.id}，第 ${ver} 版）。只做这一张，做完只回复视频路径。`,
+    `1. 用 image_edit，以 public/refs/watermelon-white.jpg 为参考图，出一张 1:1 静帧（动作的起始姿势），提示词：${LOOK} Starting pose for: ${s.action}. Bold red Chinese caption "${s.caption}" with thick white outline at the very bottom, not covering the face.`,
+    `2. 用 image_to_video，以这张静帧为首帧，生成 6 秒 1:1 视频，提示词：${s.action}. ${s.hit ? STYLE_HIT : STYLE_FACE} ${LOCK}${ver !== "1" ? " Make this take noticeably different in timing and details from other takes." : ""}`,
+    `3. 把视频保存为 ${out}（用 run_terminal_command 复制或移动过去，确认文件存在）。`,
+    "不要改仓库里的任何其他文件，不要 git 提交或推送。",
+  ].join("\n");
+}
+
+/** tmpfiles 的 /dl/ 链接直接下会拿到 HTML：先打开页面取真正的下载地址。 */
+function downloadTmpfiles(url, out) {
+  const m = url.match(/tmpfiles\.org\/(?:dl\/[^/]+\/)?([^/]+\/[^/?#]+)/);
+  const page = run("curl", ["-sL", `https://tmpfiles.org/${m[1]}`]).toString();
+  const dl = page.match(/https:\/\/tmpfiles\.org\/dl\/[^"]+/)?.[0];
+  if (!dl) throw new Error(`下载失败（链接可能过期）：${url}`);
+  run("curl", ["-sL", "-o", out, dl]);
+  const head = readFileSync(out).subarray(4, 8).toString();
+  if (head !== "ftyp") throw new Error(`下到的不是视频：${url}`);
+  console.log(`⬇️  ${out.split("/").pop()}`);
+}
+
+/** 生成一张：a.cand 有值时写进候选区 .sticker-candidates/<pack>/<id>/<cand>.gif，不碰正式文件。 */
+export function makeSticker(video, a) {
+  const speed = Number(a.speed ?? 1);
+  // 加速时按加速后的时长选片段（源视频 24fps）
+  const { cut, boom, best } = findLoop(video, 24 * speed, a.start ? 0 : Number(a.len ?? 0));
+  let plan = best;
+  if (a.mode === "cut") plan = cut;
+  if (a.mode === "boomerang") plan = boom;
+  if (a.start) plan = { ...plan, start: Number(a.start), len: Number(a.len ?? plan.len) };
+  const dir = a.cand ? join(CANDIDATES, a.pack, a.id) : join(STICKERS, a.pack);
+  mkdirSync(dir, { recursive: true });
+  const out = join(dir, `${a.cand ?? a.id}.gif`);
+  const enc = encode(video, out, plan, speed);
+  const q = qaGif(out);
+  const info = { id: a.id, cand: a.cand, plan: { mode: plan.mode, start: plan.start, len: plan.len, speed }, source: video, ...enc, ...q.metrics };
+  writeFileSync(out.replace(/\.gif$/, ".json"), JSON.stringify({ ...info, ok: q.ok, problems: q.problems }, null, 2));
+  console.log(`${q.ok ? "✅" : "❌"} ${a.id}${a.cand ? "-" + a.cand : ""} ${q.metrics.kb}KB ${q.metrics.fps}fps ${q.metrics.sec}s${q.ok ? "" : "  → " + q.problems.join("；")}`);
+  return { ...q, out };
+}
+
 function packIds(pack) {
   return readdirSync(join(STICKERS, pack)).filter((f) => f.endsWith(".gif")).map((f) => f.slice(0, -4));
 }
@@ -160,7 +212,7 @@ function stickerNames(pack) {
   return Object.fromEntries([...block.slice(0, end).matchAll(/\{ id: "([^"]+)", name: "([^"]+)"/g)].map((m) => [m[1], m[2]]));
 }
 
-function publish(pack) {
+export function publish(pack) {
   const dir = join(STICKERS, pack);
   const names = stickerNames(pack);
   const order = Object.keys(names).filter((id) => existsSync(join(dir, `${id}.gif`)));
@@ -199,28 +251,64 @@ function args(argv) {
   return o;
 }
 
-function main() {
+async function main() {
   const [cmd, ...rest] = process.argv.slice(2);
   const a = args(rest);
   mkdirSync(QA_DIR, { recursive: true });
 
   if (cmd === "make") {
     const [video] = a._;
-    if (!video || !a.pack || !a.id) throw new Error("用法: make <video> --pack set-XX --id <id>");
-    // 加速时按加速后的时长选片段（源视频 24fps）
-    const { cut, boom, best } = findLoop(video, 24 * Number(a.speed ?? 1), a.start ? 0 : Number(a.len ?? 0));
-    let plan = best;
-    if (a.mode === "cut") plan = cut;
-    if (a.mode === "boomerang") plan = boom;
-    if (a.start) plan = { ...plan, start: Number(a.start), len: Number(a.len ?? plan.len) };
-    mkdirSync(join(STICKERS, a.pack), { recursive: true });
-    const out = join(STICKERS, a.pack, `${a.id}.gif`);
-    const speed = Number(a.speed ?? 1);
-    const enc = encode(video, out, plan, speed);
-    const q = qaGif(out);
-    console.log(JSON.stringify({ id: a.id, plan: { mode: plan.mode, start: plan.start, len: plan.len }, ...enc, ...q.metrics }));
-    if (!q.ok) { console.log(`❌ ${a.id}: ${q.problems.join("；")}`); process.exitCode = 1; }
-    else console.log(`✅ ${a.id} 自动质检通过。还要看对照图：node scripts/sticker.mjs qa ${a.pack} ${a.id}`);
+    if (!video || !a.pack || !a.id) throw new Error("用法: make <video> --pack set-XX --id <id> [--cand 1]");
+    const r = makeSticker(video, a);
+    if (!r.ok) process.exitCode = 1;
+    return;
+  }
+
+  if (cmd === "fetch") {
+    // 把 Grok 回复（含「id-版本 https://tmpfiles.org/...」行）存成文本，一次下载并做成候选
+    const [pack, textFile] = a._;
+    if (!pack || !textFile) throw new Error("用法: fetch <pack> <grok回复.txt> [--hits id1,id2]");
+    const hits = new Set((a.hits ?? "").split(",").filter(Boolean));
+    const lines = [...readFileSync(textFile, "utf8").matchAll(/([a-z0-9]+)-(\d+)\s+(https:\/\/tmpfiles\.org\/\S+)/gi)];
+    if (!lines.length) throw new Error("文本里没找到「id-版本 链接」格式的行");
+    const srcDir = join(ROOT, ".sticker-sources", pack);
+    mkdirSync(srcDir, { recursive: true });
+    for (const [, id, ver, url] of lines) {
+      const mp4 = join(srcDir, `${id}-${ver}.mp4`);
+      if (!existsSync(mp4)) downloadTmpfiles(url, mp4);
+      const opts = { pack, id, cand: ver, mode: "cut", ...(hits.has(id) ? { speed: "1.6" } : {}) };
+      makeSticker(mp4, opts);
+    }
+    console.log(`\n候选已生成。打开工作台挑选：node scripts/sticker-studio.mjs`);
+    return;
+  }
+
+  if (cmd === "gen") {
+    // 让本机 grok 命令行按 briefs/<pack>.json 生成视频，再自动做成候选
+    const [pack, ...ids] = a._;
+    const brief = JSON.parse(readFileSync(join(ROOT, "briefs", `${pack}.json`), "utf8"));
+    const list = brief.stickers.filter((s) => !ids.length || ids.includes(s.id));
+    const versions = Number(a.versions ?? 2);
+    const jobs = list.flatMap((s) => Array.from({ length: versions }, (_, i) => ({ s, ver: String(i + 1 + Number(a.from ?? 0)) })));
+    const parallel = Number(a.parallel ?? 3);
+    const runOne = ({ s, ver }) => new Promise((resolve) => {
+      const out = join(ROOT, ".sticker-sources", pack, `${s.id}-${ver}.mp4`);
+      mkdirSync(dirname(out), { recursive: true });
+      console.log(`🎬 生成中 ${s.id}-${ver} …`);
+      const child = spawn("grok", ["-p", grokPrompt(s, out, ver), "--always-approve", "--cwd", ROOT], { stdio: ["ignore", "pipe", "pipe"] });
+      let log = "";
+      child.stdout.on("data", (d) => (log += d));
+      child.stderr.on("data", (d) => (log += d));
+      child.on("close", () => {
+        if (!existsSync(out)) { console.log(`❌ ${s.id}-${ver} 没生成出视频：${log.slice(-300)}`); return resolve(); }
+        try { makeSticker(out, { pack, id: s.id, cand: ver, mode: "cut", ...(s.hit ? { speed: "1.3" } : {}) }); }
+        catch (e) { console.log(`❌ ${s.id}-${ver} 做 GIF 失败：${e.message}`); }
+        resolve();
+      });
+    });
+    const queue = [...jobs];
+    await Promise.all(Array.from({ length: parallel }, async () => { while (queue.length) await runOne(queue.shift()); }));
+    console.log("\n全部完成。打开工作台挑选：node scripts/sticker-studio.mjs");
     return;
   }
 
