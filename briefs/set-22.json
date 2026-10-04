@@ -1,0 +1,59 @@
+{
+  "pack": "set-22",
+  "theme": "下雨天",
+  "name": "下雨天",
+  "nameEn": "Rainy Day",
+  "slug": "rainy-day",
+  "tagline": "忘带伞 淋湿了 借你",
+  "note": "视频里不写字，字后期加。每个动作必须做完，不能停在起手。",
+  "stickers": [
+    {
+      "id": "forgot",
+      "caption": "忘带伞",
+      "hit": false,
+      "action": "She stands smiling with no umbrella. She looks up. A small gray rain cloud pops into existence right above her head and immediately dumps a heavy splash of rain only on her. She flinches, hugs herself, and her hair is visibly dripping. The cloud stays above her."
+    },
+    {
+      "id": "soaked",
+      "caption": "淋湿了",
+      "hit": false,
+      "action": "She is already dripping wet. She shakes her whole body hard like a puppy. A big spray of water droplets flies off her hair and clothes. Then she sneezes once, eyes squeezed shut, a tiny cute shock."
+    },
+    {
+      "id": "puddle",
+      "caption": "踩水坑",
+      "hit": false,
+      "action": "She takes two running steps and jumps with both feet into a puddle. A big round splash flies up around her red shoes. She lands in the splash with a delighted grin, water still rippling."
+    },
+    {
+      "id": "share",
+      "caption": "借你",
+      "hit": false,
+      "action": "Rain is falling. She pops open a small red umbrella with a watermelon pattern and thrusts it forward toward the camera as an offer, arm fully extended. She smiles big and friendly. The umbrella stays open in front of her."
+    },
+    {
+      "id": "thunder",
+      "caption": "打雷啦",
+      "hit": false,
+      "action": "A bright lightning flash and a thunder boom. She jumps straight up off the ground with both hands covering her ears, eyes huge. She lands in a crouch, still covering her ears, a sweat drop on her cheek."
+    },
+    {
+      "id": "slip",
+      "caption": "滑倒",
+      "hit": false,
+      "action": "She takes one step on wet ground. Her feet shoot forward, she falls onto her butt with a small impact star, legs kicked up, surprised face. She stays fully in frame, sitting in a tiny puddle."
+    },
+    {
+      "id": "sun",
+      "caption": "放晴啦",
+      "hit": false,
+      "action": "A gray cloud covers the sky. She reaches up with both hands and pushes the cloud aside. A bright sun pops out. The rain stops. She throws both arms up cheering."
+    },
+    {
+      "id": "together",
+      "caption": "一起撑",
+      "hit": false,
+      "action": "She and the same small pink piglet squeeze together under one tiny umbrella that is too small for both. The umbrella bumps their heads. They look at each other and smile while rain falls around them outside the umbrella."
+    }
+  ]
+}

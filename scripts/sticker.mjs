@@ -47,7 +47,11 @@ const LADDER = [
 
 // 加字需要带 drawtext 的 ffmpeg（brew install ffmpeg-full）
 const FFMPEG = existsSync("/opt/homebrew/opt/ffmpeg-full/bin/ffmpeg") ? "/opt/homebrew/opt/ffmpeg-full/bin/ffmpeg" : "ffmpeg";
-const CAPTION_FONT = "/System/Library/Fonts/STHeiti Medium.ttc";
+const CAPTION_FONT = [
+  "/System/Library/Fonts/STHeiti Medium.ttc",
+  "/usr/share/fonts/truetype/wqy/wqy-microhei.ttc",
+  "/usr/share/fonts/truetype/droid/DroidSansFallbackFull.ttf",
+].find((p) => existsSync(p));
 const run = (cmd, args, opts = {}) => execFileSync(cmd, args, { maxBuffer: 1 << 30, ...opts });
 
 function grayFrames(file, W = 64) {
@@ -124,7 +128,7 @@ function encode(video, out, { mode, start, len }, speed = 1, caption = "") {
       run("ffmpeg", ["-v", "error", "-y", "-i", loop, "-vf",
         `hqdn3d=4:3:6:6,split[a][b];[a]palettegen=max_colors=${colors}:stats_mode=diff[p];[b][p]paletteuse=dither=none:diff_mode=rectangle`,
         "-loop", "0", out]);
-      run("gifsicle", ["-O3", `--lossy=${lossy}`, out, "-o", out]);
+      try { run("gifsicle", ["-O3", `--lossy=${lossy}`, out, "-o", out]); } catch { /* ponytail: ffmpeg gif stands if gifsicle isn't installed */ }
       bytes = statSync(out).size;
       if (bytes <= SPEC.maxBytes) break;
     }
@@ -257,9 +261,9 @@ ${b.stickers.map((x) => `      { id: "${x.id}", name: "${x.caption.replace(/[！
 }
 
 const LOOK = "Same locked watermelon-skin Duomei as the reference image public/refs/watermelon-white.jpg: chibi girl, WARM CHOCOLATE-BROWN short bob with blunt bangs (NOT black), round watermelon bun on the crown with a curly green vine and one small leaf, pink oval blush, big round dark-brown eyes. White T-shirt under cherry-watermelon-red overall shorts with black seed dots, watermelon-slice crossbody bag, white socks, red sneakers. Thick clean WHITE STICKER DIE-CUT OUTLINE around the character. Plain cream background, flat clean colors, cute sticker illustration, square 1:1. Full body centered. Any pig is the same small cute pink piglet.";
-const STYLE_HIT = "Fast snappy cartoon hitting: rapid consecutive hits with no pause between them, small impact lines on each hit. Cute, not violent.";
-const STYLE_FACE = "Cute and restrained chibi expression animation at a normal natural pace: clear readable facial expression, small effects only (a tiny cloud, sweat drop, sparkle or anger mark). Do NOT turn the face into another shape, no big explosions, no big clouds covering the character, not frantic.";
-const LOCK = "Locked camera, no zoom, no pan, no tilt. Character stays full-body in frame. Background still. One complete action within about 3 seconds, ending close to the starting pose. Same face, hair and outfit throughout. No extra limbs, no text generated inside the video.";
+const STYLE_HIT = "Fast snappy cartoon hitting: rapid consecutive hits with no pause between them, small impact lines on each hit. Cute, not violent. Every hit must fully connect and read clearly.";
+const STYLE_FACE = "Snappy cute chibi sticker timing: a short anticipation, then the action FULLY happens in a burst, then a short hold on the funniest pose. The climax must be unmistakable and complete (if she dives she leaves the board; if she hits a ball the ball flies; if she hides, the object covers her face). Big readable expression change. Small effects only (a sweat drop, sparkle, or impact star). Do not morph the face into another object, no giant explosions, no clouds covering the character. Not slow, not floaty, not a subtle idle.";
+const LOCK = "Locked camera, no zoom, no pan, no tilt. Square 1:1. Full body stays in frame unless the action is an exit, in which case she leaves the frame completely. Background still. NO text, NO letters, NO captions anywhere. Same face, chocolate-brown hair, watermelon bun and outfit the entire time. No extra limbs. Do not stay in the starting pose.";
 
 /** 给 grok 命令行的单张任务：先 image_edit 出静帧，再 image_to_video，mp4 存到指定路径。 */
 /** 角色设定：characters/<id>/character.json（look = 外形提示词，refs = 参考图）。缺省用多美。 */
@@ -274,11 +278,18 @@ export function loadCharacter(id = "duomei") {
 function grokPrompt(s, out, ver, overlay = true, ch0 = loadCharacter()) {
   // 单人表情：用该成员自己的参考图和外形（例如 who: "cat" 只画小猫）
   const m = s.who && s.who !== "both" ? ch0.members?.[s.who] : null;
-  const ch = m ? { ...ch0, look: m.look, refPath: `characters/${ch0.id}/${m.refs[0]}`, extraRefs: m.refs.slice(1).map((r) => `characters/${ch0.id}/${r}`) } : ch0;
+  const ch = m ? { ...ch0, look: m.look, refPath: `characters/${ch0.id}/${m.refs[0]}`, extraRefs: m.refs.slice(1).map((r) => `characters/${ch0.id}/${r}`) } : { ...ch0 };
+  if (s.look) ch.look = s.look;
+  const faceRule = s.look
+    ? "圆脸、大眼睛、粉色腮红保持参考图。头发、耳朵、套装按下面的同人设定画，不要画回西瓜髻短发。"
+    : "角色长相必须和参考图一致";
+  const lock = s.look
+    ? LOCK.replace("Same face, chocolate-brown hair, watermelon bun and outfit the entire time.", "Keep this sticker's hero hair, ears and costume for the whole clip. Same round face, do not revert to a plain brown bob.")
+    : LOCK;
   return [
     `你在做多美表情包的一张：${s.caption}（id: ${s.id}，第 ${ver} 版）。只做这一张，做完只回复视频路径。`,
-    `1. 用 image_edit，以 ${ch.refPath} 为参考图${ch.extraRefs?.length ? `（角色细节也参考 ${ch.extraRefs.join("、")}）` : ""}，角色长相必须和参考图一致，出一张 1:1 静帧（动作的起始姿势），提示词：${ch.look} Starting pose for: ${s.action}. ${overlay ? "NO text, NO letters, NO caption anywhere in the image; leave the bottom 20% of the image as empty cream background." : `Bold red Chinese caption "${s.caption}" with thick white outline at the very bottom, not covering the face.`}`,
-    `2. 用 image_to_video，以这张静帧为首帧，生成 6 秒 1:1 视频，提示词：${s.action}. ${s.hit ? STYLE_HIT : STYLE_FACE} ${LOCK}${overlay ? " Keep the bottom 20% empty, no text." : ""}${ver !== "1" ? " Make this take noticeably different in timing and details from other takes." : ""}`,
+    `1. 用 image_edit，以 ${ch.refPath} 为参考图${ch.extraRefs?.length ? `（角色细节也参考 ${ch.extraRefs.join("、")}）` : ""}，${faceRule}，出一张 1:1 静帧（动作的起始姿势），提示词：${ch.look} Starting pose for: ${s.action}. ${overlay ? "NO text, NO letters, NO caption anywhere in the image; leave the bottom 20% of the image as empty cream background." : `Bold red Chinese caption "${s.caption}" with thick white outline at the very bottom, not covering the face.`}`,
+    `2. 用 image_to_video，以这张静帧为首帧，生成 6 秒 1:1 视频，提示词：${s.action}. Beat sheet: 0.0s the starting pose, 0.5s anticipation, 1.2s the climax is fully visible, 2.2s hold the joke, then settle near the start. One action only. ${s.hit ? STYLE_HIT : STYLE_FACE} ${lock}${overlay ? " Keep the bottom 20% empty, no text." : ""}${ver !== "1" ? " Make this take noticeably different in timing and details from other takes." : ""}`,
     `3. 把视频保存为 ${out}（用 run_terminal_command 复制或移动过去，确认文件存在）。`,
     "不要改仓库里的任何其他文件，不要 git 提交或推送。",
   ].join("\n");
@@ -433,7 +444,8 @@ async function main() {
       const out = join(ROOT, ".sticker-sources", pack, `${s.id}-${ver}.mp4`);
       mkdirSync(dirname(out), { recursive: true });
       console.log(`🎬 生成中 ${s.id}-${ver} …`);
-      const child = spawn("grok", ["-p", grokPrompt(s, out, ver, brief.captionOverlay !== false, character), "--always-approve", "--cwd", ROOT], { stdio: ["ignore", "pipe", "pipe"] });
+      const grokBin = existsSync(join(process.env.HOME || "", ".grok/bin/grok")) ? join(process.env.HOME || "", ".grok/bin/grok") : "grok";
+      const child = spawn(grokBin, ["-p", grokPrompt(s, out, ver, brief.captionOverlay !== false, character), "--always-approve", "--max-turns", "40", "--cwd", ROOT], { stdio: ["ignore", "pipe", "pipe"] });
       let log = "";
       child.stdout.on("data", (d) => (log += d));
       child.stderr.on("data", (d) => (log += d));
