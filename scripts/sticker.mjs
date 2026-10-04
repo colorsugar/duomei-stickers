@@ -437,7 +437,8 @@ async function main() {
       const out = join(ROOT, ".sticker-sources", pack, `${s.id}-${ver}.mp4`);
       mkdirSync(dirname(out), { recursive: true });
       console.log(`🎬 生成中 ${s.id}-${ver} …`);
-      const child = spawn("grok", ["-p", grokPrompt(s, out, ver, brief.captionOverlay !== false, character), "--always-approve", "--cwd", ROOT], { stdio: ["ignore", "pipe", "pipe"] });
+      const grokBin = existsSync(join(process.env.HOME || "", ".grok/bin/grok")) ? join(process.env.HOME || "", ".grok/bin/grok") : "grok";
+      const child = spawn(grokBin, ["-p", grokPrompt(s, out, ver, brief.captionOverlay !== false, character), "--always-approve", "--max-turns", "24", "--cwd", ROOT], { stdio: ["ignore", "pipe", "pipe"] });
       let log = "";
       child.stdout.on("data", (d) => (log += d));
       child.stderr.on("data", (d) => (log += d));
