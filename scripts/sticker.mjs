@@ -445,7 +445,7 @@ async function main() {
       mkdirSync(dirname(out), { recursive: true });
       console.log(`🎬 生成中 ${s.id}-${ver} …`);
       const grokBin = existsSync(join(process.env.HOME || "", ".grok/bin/grok")) ? join(process.env.HOME || "", ".grok/bin/grok") : "grok";
-      const child = spawn(grokBin, ["-p", grokPrompt(s, out, ver, brief.captionOverlay !== false, character), "--always-approve", "--max-turns", "24", "--cwd", ROOT], { stdio: ["ignore", "pipe", "pipe"] });
+      const child = spawn(grokBin, ["-p", grokPrompt(s, out, ver, brief.captionOverlay !== false, character), "--always-approve", "--max-turns", "40", "--cwd", ROOT], { stdio: ["ignore", "pipe", "pipe"] });
       let log = "";
       child.stdout.on("data", (d) => (log += d));
       child.stderr.on("data", (d) => (log += d));
