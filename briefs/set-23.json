@@ -1,0 +1,67 @@
+{
+  "pack": "set-23",
+  "theme": "守望同人可爱",
+  "name": "开黑可爱",
+  "nameEn": "Cute Team Fight",
+  "slug": "cute-teamfight",
+  "tagline": "快奶我 开大 集合",
+  "note": "同人画法：多美的圆脸留着，头发、耳朵、套装用国内表情包认得出的英雄锚点。不抄官方脸。视频不写字。",
+  "stickers": [
+    {
+      "id": "healme",
+      "caption": "快奶我",
+      "hit": false,
+      "look": "Chibi Duomei doujin, NOT the official hero face: round face, huge dark-brown eyes, pink blush, tiny watermelon hairpin. Hero costume: long blonde high ponytail, small golden halo, white-and-gold dress, golden angel wings, golden caduceus staff. Cute, full body, white sticker outline, cream background, no text.",
+      "action": "She hugs her knees and looks up with pleading eyes, then points the golden staff so a thin yellow-green heal beam wobbles toward the camera. Wings flutter once. The blonde ponytail and wings stay visible the whole time."
+    },
+    {
+      "id": "ult",
+      "caption": "开大",
+      "hit": false,
+      "look": "Chibi Duomei doujin, NOT the official hero face: round face, huge dark-brown eyes, pink blush, tiny watermelon hairpin. Hero costume: short green-black hair, glowing green visor crest, white-and-green shoulder armor, a small sword on her back. Cute, full body, white sticker outline, cream background, no text.",
+      "action": "She crouches, then springs up as one small cute green dragon swirls once around her and bursts into sparkles. Both arms go up, proud smile. The dragon never replaces her. Green hair and visor stay."
+    },
+    {
+      "id": "group",
+      "caption": "集合",
+      "hit": false,
+      "look": "Chibi Duomei doujin, NOT the official hero face: round face, huge dark-brown eyes, pink blush, tiny watermelon hairpin. Hero costume: dark dreadlocks, green visor headphones, frog-green jacket, roller skates, and a chunky speaker. Cute, full body, white sticker outline, cream background, no text.",
+      "action": "She rolls one step on her skates and waves both arms to call people in. The speaker beside her blasts visible round sound rings. Dreadlocks and headphones stay obvious."
+    },
+    {
+      "id": "mine",
+      "caption": "我的",
+      "hit": false,
+      "look": "Chibi Duomei doujin, NOT the official hero face: round face, huge dark-brown eyes, pink blush, tiny watermelon hairpin. Hero costume: long brown hair, pink bunny-ear headset (ears must read clearly), pink-and-white pilot suit with a small heart. No giant mech replacing her body. Cute, full body, white sticker outline, cream background, no text.",
+      "action": "She winks and makes a tiny finger-heart. A pink heart and a little gold star pop beside the bunny ears. She holds the cute victory pose. Bunny ears stay on."
+    },
+    {
+      "id": "recall",
+      "caption": "撤回",
+      "hit": false,
+      "look": "Chibi Duomei doujin, NOT the official hero face: round face, huge dark-brown eyes, pink blush, tiny watermelon hairpin. Hero costume: short brown pixie hair, blue goggles pushed up on the forehead, orange jacket, brown leggings, glowing blue chest piece. Cute, full body, white sticker outline, cream background, no text.",
+      "action": "She steps forward, then blinks backward along a bright blue rewind trail and pops back into the starting pose with a shy smile. Short pixie hair and forehead goggles stay visible. She never leaves the frame."
+    },
+    {
+      "id": "nap",
+      "caption": "睡啦",
+      "hit": false,
+      "look": "Chibi Duomei doujin, NOT the official hero face: round face, huge dark-brown eyes, pink blush, tiny watermelon hairpin. Hero costume: white side-swept hair, a beige eyepatch over one eye, teal cape. The same small pink piglet stands beside her. Cute, full body, white sticker outline, cream background, no text.",
+      "action": "She flicks one tiny moon-marked sleep dart. It taps the piglet, the piglet's eyes turn into spirals, and it flops softly asleep. She giggles. Eyepatch and white hair stay. The dart is cute, not a rifle."
+    },
+    {
+      "id": "boost",
+      "caption": "变强啦",
+      "hit": false,
+      "look": "Chibi Duomei doujin, NOT the official hero face: round face, huge dark-brown eyes, pink blush, tiny watermelon hairpin. Hero costume: black hair with a red streak, fox ears, a small kitsune mask at the side of her head, white-and-red shrine outfit, paper talismans. The same small pink piglet is beside her. Cute, full body, white sticker outline, cream background, no text.",
+      "action": "She taps the piglet with a paper talisman. A bright yellow glow outlines the piglet and it stands taller with starry eyes. Fox ears and the kitsune mask stay obvious. She claps once."
+    },
+    {
+      "id": "steady",
+      "caption": "稳住",
+      "hit": false,
+      "look": "Chibi Duomei doujin, NOT the official hero face: round face, huge dark-brown eyes, pink blush, tiny watermelon hairpin. Hero costume: big fluffy white hair and a cute short white beard, grey-gold armor that still shows her chibi face, a chunky hammer resting by her foot. Cute, full body, white sticker outline, cream background, no text.",
+      "action": "A big rectangular blue energy shield appears in front of her. She plants her feet, palms forward, and gives one firm little nod. White hair and beard stay visible above the shield. The hammer does not swing."
+    }
+  ]
+}

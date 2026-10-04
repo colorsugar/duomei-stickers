@@ -278,11 +278,18 @@ export function loadCharacter(id = "duomei") {
 function grokPrompt(s, out, ver, overlay = true, ch0 = loadCharacter()) {
   // 单人表情：用该成员自己的参考图和外形（例如 who: "cat" 只画小猫）
   const m = s.who && s.who !== "both" ? ch0.members?.[s.who] : null;
-  const ch = m ? { ...ch0, look: m.look, refPath: `characters/${ch0.id}/${m.refs[0]}`, extraRefs: m.refs.slice(1).map((r) => `characters/${ch0.id}/${r}`) } : ch0;
+  const ch = m ? { ...ch0, look: m.look, refPath: `characters/${ch0.id}/${m.refs[0]}`, extraRefs: m.refs.slice(1).map((r) => `characters/${ch0.id}/${r}`) } : { ...ch0 };
+  if (s.look) ch.look = s.look;
+  const faceRule = s.look
+    ? "圆脸、大眼睛、粉色腮红保持参考图。头发、耳朵、套装按下面的同人设定画，不要画回西瓜髻短发。"
+    : "角色长相必须和参考图一致";
+  const lock = s.look
+    ? LOCK.replace("Same face, chocolate-brown hair, watermelon bun and outfit the entire time.", "Keep this sticker's hero hair, ears and costume for the whole clip. Same round face, do not revert to a plain brown bob.")
+    : LOCK;
   return [
     `你在做多美表情包的一张：${s.caption}（id: ${s.id}，第 ${ver} 版）。只做这一张，做完只回复视频路径。`,
-    `1. 用 image_edit，以 ${ch.refPath} 为参考图${ch.extraRefs?.length ? `（角色细节也参考 ${ch.extraRefs.join("、")}）` : ""}，角色长相必须和参考图一致，出一张 1:1 静帧（动作的起始姿势），提示词：${ch.look} Starting pose for: ${s.action}. ${overlay ? "NO text, NO letters, NO caption anywhere in the image; leave the bottom 20% of the image as empty cream background." : `Bold red Chinese caption "${s.caption}" with thick white outline at the very bottom, not covering the face.`}`,
-    `2. 用 image_to_video，以这张静帧为首帧，生成 6 秒 1:1 视频，提示词：${s.action}. Beat sheet: 0.0s the starting pose, 0.5s anticipation, 1.2s the climax is fully visible, 2.2s hold the joke, then settle near the start. One action only. ${s.hit ? STYLE_HIT : STYLE_FACE} ${LOCK}${overlay ? " Keep the bottom 20% empty, no text." : ""}${ver !== "1" ? " Make this take noticeably different in timing and details from other takes." : ""}`,
+    `1. 用 image_edit，以 ${ch.refPath} 为参考图${ch.extraRefs?.length ? `（角色细节也参考 ${ch.extraRefs.join("、")}）` : ""}，${faceRule}，出一张 1:1 静帧（动作的起始姿势），提示词：${ch.look} Starting pose for: ${s.action}. ${overlay ? "NO text, NO letters, NO caption anywhere in the image; leave the bottom 20% of the image as empty cream background." : `Bold red Chinese caption "${s.caption}" with thick white outline at the very bottom, not covering the face.`}`,
+    `2. 用 image_to_video，以这张静帧为首帧，生成 6 秒 1:1 视频，提示词：${s.action}. Beat sheet: 0.0s the starting pose, 0.5s anticipation, 1.2s the climax is fully visible, 2.2s hold the joke, then settle near the start. One action only. ${s.hit ? STYLE_HIT : STYLE_FACE} ${lock}${overlay ? " Keep the bottom 20% empty, no text." : ""}${ver !== "1" ? " Make this take noticeably different in timing and details from other takes." : ""}`,
     `3. 把视频保存为 ${out}（用 run_terminal_command 复制或移动过去，确认文件存在）。`,
     "不要改仓库里的任何其他文件，不要 git 提交或推送。",
   ].join("\n");
